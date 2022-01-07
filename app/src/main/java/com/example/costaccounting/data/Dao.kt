@@ -12,7 +12,10 @@ interface Dao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTransaction(transaction: Transaction)
 
-    @Query("SELECT * FROM transactions_table ORDER BY id ASC")
-    fun readAllTransactions(): LiveData<List<Transaction>>
+    @Query("SELECT * FROM transactions_table WHERE isAnExpense = 0 ORDER BY date DESC")
+    fun readAllIncomes(): LiveData<List<Transaction>>
+
+    @Query("SELECT * FROM transactions_table WHERE isAnExpense = 1 ORDER BY date DESC")
+    fun readAllExpenses(): LiveData<List<Transaction>>
 
 }

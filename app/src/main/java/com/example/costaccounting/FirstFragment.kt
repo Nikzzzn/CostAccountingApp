@@ -1,5 +1,6 @@
 package com.example.costaccounting
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,10 @@ import android.view.ViewGroup
 import com.example.costaccounting.databinding.FragmentFirstBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
+import android.R
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+
 
 class FirstFragment : Fragment() {
 
@@ -19,19 +24,23 @@ class FirstFragment : Fragment() {
     ): View? {
         binding = FragmentFirstBinding.inflate(inflater, container, false)
 
-        val adapter = ViewPagerAdapter(this)
-        binding.viewPager.adapter = adapter
+        val viewPager: ViewPager2 = binding.viewPager
+        val tabLayout: TabLayout = binding.tabLayout
 
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) {
+        val adapter = ViewPagerAdapter(this)
+        viewPager.adapter = adapter
+
+        TabLayoutMediator(tabLayout, viewPager) {
                 tab, position -> tab.text = adapter.fragmentNames[position]
 
         }.attach()
 
         val fab: View = binding.fab
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
+        fab.setOnClickListener {
+            val isAnExpense: Boolean = tabLayout.selectedTabPosition == 0
+            val intent = Intent(context, AddTransactionActivity::class.java)
+            intent.putExtra("isAnExpense", isAnExpense)
+            startActivity(intent)
         }
 
         return binding.root
