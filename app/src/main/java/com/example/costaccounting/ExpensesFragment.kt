@@ -27,7 +27,7 @@ class ExpensesFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
+        dataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
         dataViewModel.readAllExpenses.observe(viewLifecycleOwner, Observer {
             adapter.setData(it)
         })

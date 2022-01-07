@@ -27,6 +27,7 @@ private lateinit var dataViewModel: DataViewModel
 private val myCalendar: Calendar = Calendar.getInstance()
 
 class AddTransactionActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddTransactionBinding.inflate(layoutInflater)
@@ -62,9 +63,7 @@ class AddTransactionActivity : AppCompatActivity() {
     }
 
     private fun updateLabel() {
-        val myFormat = "dd/MM/yy"
-        val dateFormat = SimpleDateFormat(myFormat, Locale.US)
-        binding.editTextDate.setText(dateFormat.format(myCalendar.time))
+        binding.editTextDate.setText(Util.getDateFormat().format(myCalendar.time))
     }
 
     private fun insertDataToDatabase(isAnExpense: Boolean) {
@@ -73,7 +72,8 @@ class AddTransactionActivity : AppCompatActivity() {
         val date = binding.editTextDate.text.toString()
 
         if(inputCheck(amount, category, date)){
-            val transaction = Transaction(0, isAnExpense, amount.toDouble(), category, Date(date))
+
+            val transaction = Transaction(0, isAnExpense, amount.toDouble(), category, Util.getDateFormat().parse(date)!!)
             dataViewModel.addTransaction(transaction)
             Toast.makeText(applicationContext, "Success!", Toast.LENGTH_SHORT).show()
             this.finish()

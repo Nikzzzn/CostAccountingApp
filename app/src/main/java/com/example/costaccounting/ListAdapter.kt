@@ -11,9 +11,8 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.TransactionViewHolder>() {
 
     private var transactionsList = emptyList<Transaction>()
 
-    class TransactionViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-
-    }
+    class TransactionViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    class DateViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
         return TransactionViewHolder(LayoutInflater.from(parent.context)
@@ -23,12 +22,16 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.TransactionViewHolder>() {
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val currentItem = transactionsList[position]
         holder.itemView.findViewById<TextView>(R.id.textViewCategory).text = currentItem.category
-        holder.itemView.findViewById<TextView>(R.id.textViewDate).text = currentItem.date.toString()
+        holder.itemView.findViewById<TextView>(R.id.textViewDate).text = Util.getDateFormat().format(currentItem.date)
         holder.itemView.findViewById<TextView>(R.id.textViewAmount).text = currentItem.amount.toString()
     }
 
     override fun getItemCount(): Int {
         return transactionsList.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
     }
 
     fun setData(transaction: List<Transaction>){
