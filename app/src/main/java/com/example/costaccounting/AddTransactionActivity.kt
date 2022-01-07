@@ -1,9 +1,7 @@
 package com.example.costaccounting
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
 import android.view.MenuItem
 import android.widget.Toast
@@ -11,16 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.costaccounting.data.DataViewModel
 import com.example.costaccounting.data.Transaction
 import com.example.costaccounting.databinding.ActivityAddTransactionBinding
-import com.example.costaccounting.databinding.ActivityMainBinding
-import java.text.SimpleDateFormat
 import java.util.*
-import java.util.Locale
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
-
-import android.view.View
-
-import android.widget.DatePicker
 
 private lateinit var binding: ActivityAddTransactionBinding
 private lateinit var dataViewModel: DataViewModel
@@ -63,7 +54,7 @@ class AddTransactionActivity : AppCompatActivity() {
     }
 
     private fun updateLabel() {
-        binding.editTextDate.setText(Util.getDateFormat().format(myCalendar.time))
+        binding.editTextDate.setText(Util.getFullDateFormat().format(myCalendar.time))
     }
 
     private fun insertDataToDatabase(isAnExpense: Boolean) {
@@ -73,7 +64,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
         if(inputCheck(amount, category, date)){
 
-            val transaction = Transaction(0, isAnExpense, amount.toDouble(), category, Util.getDateFormat().parse(date)!!)
+            val transaction = Transaction(0, isAnExpense, amount.toDouble(), category, Util.getFullDateFormat().parse(date)!!)
             dataViewModel.addTransaction(transaction)
             Toast.makeText(applicationContext, "Success!", Toast.LENGTH_SHORT).show()
             this.finish()
