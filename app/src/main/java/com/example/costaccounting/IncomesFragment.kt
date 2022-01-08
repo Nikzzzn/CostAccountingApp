@@ -22,7 +22,7 @@ class IncomesFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_incomes, container, false)
 
-        val adapter = ListAdapter()
+        val adapter = TransactionsAdapter()
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewIncomes)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

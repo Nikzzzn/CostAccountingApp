@@ -11,6 +11,7 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
 
     val readAllExpenses: LiveData<List<Transaction>>
     val readAllIncomes: LiveData<List<Transaction>>
+    val readAllAccounts: LiveData<List<Account>>
     private val repository: Repository
 
     init{
@@ -18,11 +19,18 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
         repository = Repository(dao)
         readAllExpenses = repository.readAllExpenses
         readAllIncomes = repository.readAllIncomes
+        readAllAccounts = repository.readAllAccounts
     }
 
     fun addTransaction(transaction: Transaction){
         viewModelScope.launch(Dispatchers.IO){
             repository.addTransaction(transaction)
+        }
+    }
+
+    fun addAccount(account: Account){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.addAccount(account)
         }
     }
 

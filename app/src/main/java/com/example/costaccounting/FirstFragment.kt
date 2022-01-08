@@ -35,7 +35,7 @@ class FirstFragment : Fragment() {
 
         }.attach()
 
-        val fab: View = binding.fab
+        val fab: View = binding.fabTransactions
         fab.setOnClickListener {
             val isAnExpense: Boolean = tabLayout.selectedTabPosition == 0
             val intent = Intent(context, AddTransactionActivity::class.java)

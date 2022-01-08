@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.costaccounting.data.Transaction
 import java.util.*
 
-class ListAdapter: RecyclerView.Adapter<ListAdapter.DataViewHolder>() {
+class TransactionsAdapter: RecyclerView.Adapter<TransactionsAdapter.DataViewHolder>() {
 
     private var transactionsList = emptyList<TransactionItem>()
     private var itemsList = mutableListOf<RecyclerItem>()
@@ -57,13 +57,13 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.DataViewHolder>() {
                 val yearString = Util.getYearDateFormat().format(dateItem.displayDate)
                 val date = "$dayString $monthString $yearString"
 
-                holder.itemView.findViewById<TextView>(R.id.textViewDate).text = date
+                holder.itemView.findViewById<TextView>(R.id.textViewTransactionDate).text = date
 
             }
             RecyclerItem.typeTransaction -> {
                 val transactionItem = itemsList[position] as TransactionItem
-                holder.itemView.findViewById<TextView>(R.id.textViewCategory).text = transactionItem.transaction.category
-                holder.itemView.findViewById<TextView>(R.id.textViewAmount).text = transactionItem.transaction.amount.toString()
+                holder.itemView.findViewById<TextView>(R.id.textViewTransactionCategory).text = transactionItem.transaction.category
+                holder.itemView.findViewById<TextView>(R.id.textViewTransactionAmount).text = transactionItem.transaction.amount.toString()
             }
         }
     }

@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.costaccounting.Converters
 
-@Database(entities = [Transaction::class], version = 1, exportSchema = false)
+@Database(entities = [Transaction::class, Account::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase(){
 

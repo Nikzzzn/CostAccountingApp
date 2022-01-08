@@ -26,11 +26,11 @@ class AddTransactionActivity : AppCompatActivity() {
         setContentView(view)
 
         dataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
-        setSupportActionBar(findViewById(R.id.toolbar_add))
+        setSupportActionBar(binding.toolbarAddTransaction)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         title = "New transaction"
 
-        binding.buttonAdd.setOnClickListener{
+        binding.buttonTransactionAdd.setOnClickListener{
             val isAnExpense = intent.getBooleanExtra("isAnExpense", true)
             insertDataToDatabase(isAnExpense)
         }
@@ -42,7 +42,7 @@ class AddTransactionActivity : AppCompatActivity() {
                 myCalendar[Calendar.DAY_OF_MONTH] = day
                 updateLabel()
             }
-        binding.editTextDate.setOnClickListener {
+        binding.editTextTransactionDate.setOnClickListener {
             DatePickerDialog(
                 this@AddTransactionActivity,
                 date,
@@ -54,16 +54,15 @@ class AddTransactionActivity : AppCompatActivity() {
     }
 
     private fun updateLabel() {
-        binding.editTextDate.setText(Util.getFullDateFormat().format(myCalendar.time))
+        binding.editTextTransactionDate.setText(Util.getFullDateFormat().format(myCalendar.time))
     }
 
     private fun insertDataToDatabase(isAnExpense: Boolean) {
-        val amount = binding.editTextAmount.text.toString()
-        val category = binding.editTextCategory.text.toString()
-        val date = binding.editTextDate.text.toString()
+        val amount = binding.editTextTransactionAmount.text.toString()
+        val category = binding.editTextTransactionCategory.text.toString()
+        val date = binding.editTextTransactionDate.text.toString()
 
         if(inputCheck(amount, category, date)){
-
             val transaction = Transaction(0, isAnExpense, amount.toDouble(), category, Util.getFullDateFormat().parse(date)!!)
             dataViewModel.addTransaction(transaction)
             Toast.makeText(applicationContext, "Success!", Toast.LENGTH_SHORT).show()
@@ -77,7 +76,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            this.finish()  //сделать интент и вернуться домой
+            this.finish()
             return true;
         }
         return super.onOptionsItemSelected(item)
