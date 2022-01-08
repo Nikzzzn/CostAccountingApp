@@ -1,5 +1,6 @@
 package com.example.costaccounting
 
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +12,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.costaccounting.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import android.content.SharedPreferences
+
+
+
 
 private lateinit var binding: ActivityMainBinding
 private lateinit var drawerLayout: DrawerLayout
@@ -21,6 +26,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        checkFirstRun();
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
@@ -99,4 +107,28 @@ class MainActivity : AppCompatActivity() {
         drawerToggle.onConfigurationChanged(newConfig)
     }
 
+
+    private fun checkFirstRun() {
+        val PREFS_NAME = "MyPrefsFile"
+        val PREF_VERSION_CODE_KEY = "version_code"
+        val DOESNT_EXIST = -1
+
+        val currentVersionCode = BuildConfig.VERSION_CODE
+
+        val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+        val savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST)
+
+        when {
+            currentVersionCode == savedVersionCode -> {
+                return
+            }
+            savedVersionCode == DOESNT_EXIST || currentVersionCode > savedVersionCode -> {
+                val intent = Intent(applicationContext, AddAccountActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+        // Update the shared preferences with the current version code
+        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply()
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.costaccounting
 
+import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -12,10 +13,14 @@ import com.example.costaccounting.databinding.ActivityAddTransactionBinding
 import java.util.*
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.util.Log
+import com.example.costaccounting.data.Account
 
 private lateinit var binding: ActivityAddTransactionBinding
 private lateinit var dataViewModel: DataViewModel
 private val myCalendar: Calendar = Calendar.getInstance()
+private var selectedAccount: Int? = null
+private lateinit var accounts: List<Account>
 
 class AddTransactionActivity : AppCompatActivity() {
 
@@ -51,6 +56,21 @@ class AddTransactionActivity : AppCompatActivity() {
                 myCalendar[Calendar.DAY_OF_MONTH]
             ).show()
         }
+        dataViewModel.readAllAccounts.observe(this, {
+            accounts = it
+        })
+
+        binding.editTextTransactionAccount.setOnClickListener{
+            val builder = AlertDialog.Builder(this@AddTransactionActivity)
+            builder.setTitle("Choose account")
+            builder.setItems(accounts.map{it.name}.toTypedArray()) { dialog, which ->
+                binding.editTextTransactionAccount.setText(accounts[which].name)
+                selectedAccount = accounts[which].id
+                Log.d("asdf", selectedAccount.toString())
+            }
+            val dialog = builder.create()
+            dialog.show()
+        }
     }
 
     private fun updateLabel() {
@@ -63,7 +83,7 @@ class AddTransactionActivity : AppCompatActivity() {
         val date = binding.editTextTransactionDate.text.toString()
 
         if(inputCheck(amount, category, date)){
-            val transaction = Transaction(0, isAnExpense, amount.toDouble(), category, Util.getFullDateFormat().parse(date)!!)
+            val transaction = Transaction(0, isAnExpense, amount.toDouble(), selectedAccount!!, category, Util.getFullDateFormat().parse(date)!!)
             dataViewModel.addTransaction(transaction)
             Toast.makeText(applicationContext, "Success!", Toast.LENGTH_SHORT).show()
             this.finish()

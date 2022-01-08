@@ -9,9 +9,10 @@ import kotlinx.coroutines.launch
 
 class DataViewModel(application: Application): AndroidViewModel(application) {
 
-    val readAllExpenses: LiveData<List<Transaction>>
-    val readAllIncomes: LiveData<List<Transaction>>
+    val readAllExpenses: LiveData<List<TransactionWithAccount>>
+    val readAllIncomes: LiveData<List<TransactionWithAccount>>
     val readAllAccounts: LiveData<List<Account>>
+    val readAllAccountWithTransactions: LiveData<List<AccountWithTransactions>>
     private val repository: Repository
 
     init{
@@ -20,6 +21,7 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
         readAllExpenses = repository.readAllExpenses
         readAllIncomes = repository.readAllIncomes
         readAllAccounts = repository.readAllAccounts
+        readAllAccountWithTransactions = repository.readAllAccountsWithTransactions
     }
 
     fun addTransaction(transaction: Transaction){

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.costaccounting.data.Transaction
+import com.example.costaccounting.data.TransactionWithAccount
 import java.util.*
 
 class TransactionsAdapter: RecyclerView.Adapter<TransactionsAdapter.DataViewHolder>() {
@@ -33,7 +33,7 @@ class TransactionsAdapter: RecyclerView.Adapter<TransactionsAdapter.DataViewHold
         }
     }
 
-    class TransactionItem(var transaction: Transaction) : RecyclerItem() {
+    class TransactionItem(var item: TransactionWithAccount) : RecyclerItem() {
         override fun getType(): Int {
             return typeTransaction
         }
@@ -62,8 +62,8 @@ class TransactionsAdapter: RecyclerView.Adapter<TransactionsAdapter.DataViewHold
             }
             RecyclerItem.typeTransaction -> {
                 val transactionItem = itemsList[position] as TransactionItem
-                holder.itemView.findViewById<TextView>(R.id.textViewTransactionCategory).text = transactionItem.transaction.category
-                holder.itemView.findViewById<TextView>(R.id.textViewTransactionAmount).text = transactionItem.transaction.amount.toString()
+                holder.itemView.findViewById<TextView>(R.id.textViewTransactionCategory).text = transactionItem.item.transaction.category
+                holder.itemView.findViewById<TextView>(R.id.textViewTransactionAmount).text = transactionItem.item.transaction.amount.toString()
             }
         }
     }
@@ -77,21 +77,20 @@ class TransactionsAdapter: RecyclerView.Adapter<TransactionsAdapter.DataViewHold
     }
 
     private fun updateRecyclerItems(){
-        currentDate = transactionsList[0].transaction.date
+        currentDate = transactionsList[0].item.transaction.date
         itemsList = mutableListOf(DateItem(currentDate))
         for (tr in transactionsList) {
-            if (currentDate == tr.transaction.date) {
+            if (currentDate == tr.item.transaction.date) {
                 itemsList.add(tr)
             } else {
-                currentDate = tr.transaction.date
-                itemsList.add(DateItem(tr.transaction.date))
+                currentDate = tr.item.transaction.date
+                itemsList.add(DateItem(tr.item.transaction.date))
                 itemsList.add(tr)
             }
         }
-        Log.d("asdf", itemsList.toString())
     }
 
-    fun setData(transaction: List<Transaction>){
+    fun setData(transaction: List<TransactionWithAccount>){
         transactionsList = transaction.map {
             TransactionItem(it)
         }
