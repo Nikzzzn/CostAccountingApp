@@ -12,6 +12,10 @@ import java.util.Date
         entity = Account::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("account_id"),
+    ), ForeignKey(
+        entity = USDExchangeRate::class,
+        parentColumns = arrayOf("currency_name"),
+        childColumns = arrayOf("currency")
     )]
 )
 data class Transaction(
@@ -22,7 +26,7 @@ data class Transaction(
     @ColumnInfo(name="transaction_amount")
     val amount: Double,
     val account_id: Int,
+    val currency: String,
     val category: String,
     val date: Date
-    //добавить привязку к аккаунту и просьбу о создании аккаунта при первом запуске приложения
-    )
+)

@@ -18,6 +18,10 @@ class Repository(private val dao: Dao) {
         dao.addAccount(account)
     }
 
+    suspend fun updateAccount(account: Account){
+        dao.updateAccount(account)
+    }
+
     suspend fun addUSDExchangeRate(usdExchangeRate: USDExchangeRate){
         dao.addUSDExchangeRate(usdExchangeRate)
     }

@@ -39,6 +39,12 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun updateAccount(account: Account){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.updateAccount(account)
+        }
+    }
+
     fun addUSDExchangeRate(usdExchangeRate: USDExchangeRate){
         viewModelScope.launch(Dispatchers.IO) {
             repository.addUSDExchangeRate(usdExchangeRate)

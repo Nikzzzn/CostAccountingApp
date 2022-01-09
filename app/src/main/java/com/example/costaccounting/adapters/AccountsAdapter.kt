@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.costaccounting.R
 import com.example.costaccounting.data.Account
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class AccountsAdapter: RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>() {
 
@@ -21,7 +23,7 @@ class AccountsAdapter: RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>()
 
     override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
         holder.itemView.findViewById<TextView>(R.id.textViewAccountName).text = accountsList[position].name
-        val amount = accountsList[position].amount.toString()
+        val amount = BigDecimal(accountsList[position].amount).setScale(2, RoundingMode.HALF_EVEN)
         val currency = accountsList[position].currency
         holder.itemView.findViewById<TextView>(R.id.textViewAccountAmount).text = "$amount $currency"
     }

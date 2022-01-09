@@ -13,6 +13,7 @@ import com.example.costaccounting.databinding.ActivityAddTransactionBinding
 import java.util.*
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.content.Intent
 import android.util.Log
 import com.example.costaccounting.Util
 import com.example.costaccounting.data.Account
@@ -20,7 +21,7 @@ import com.example.costaccounting.data.Account
 private lateinit var binding: ActivityAddTransactionBinding
 private lateinit var dataViewModel: DataViewModel
 private val myCalendar: Calendar = Calendar.getInstance()
-private var selectedAccount: Int? = null
+private var selectedAccount: Account? = null
 private lateinit var accounts: List<Account>
 
 class AddTransactionActivity : AppCompatActivity() {
@@ -65,12 +66,27 @@ class AddTransactionActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this@AddTransactionActivity)
             builder.setTitle("Choose account")
             builder.setItems(accounts.map{it.name}.toTypedArray()) { dialog, which ->
-                binding.editTextTransactionAccount.setText(accounts[which].name)
-                selectedAccount = accounts[which].id
-                Log.d("asdf", selectedAccount.toString())
+                selectedAccount = accounts[which]
+                binding.editTextTransactionAccount.setText(selectedAccount!!.name)
+                binding.editTextTransactionCurrency.setText(selectedAccount!!.currency)
             }
             val dialog = builder.create()
             dialog.show()
+        }
+
+        binding.editTextTransactionCurrency.setOnClickListener{
+            val intentWithResult = Intent(this, ChooseCurrencyActivity::class.java)
+            startActivityForResult(intentWithResult, 3)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 3) {
+            if (resultCode == RESULT_OK) {
+                val result = data?.getStringExtra("currency")
+                binding.editTextTransactionCurrency.setText(result)
+            }
         }
     }
 
@@ -80,13 +96,23 @@ class AddTransactionActivity : AppCompatActivity() {
 
     private fun insertDataToDatabase(isAnExpense: Boolean) {
         val amount = binding.editTextTransactionAmount.text.toString()
+        val currency = binding.editTextTransactionCurrency.text.toString()
         val category = binding.editTextTransactionCategory.text.toString()
         val date = binding.editTextTransactionDate.text.toString()
 
         if(inputCheck(amount, category, date)){
-            val transaction = Transaction(0, isAnExpense, amount.toDouble(), selectedAccount!!, category, Util.getFullDateFormat()
-                .parse(date)!!)
+            val transaction = Transaction(0, isAnExpense, amount.toDouble(), selectedAccount!!.id,
+                currency, category, Util.getFullDateFormat().parse(date)!!)
             dataViewModel.addTransaction(transaction)
+
+            val convertedAmount = Util.convertCurrency(this, currency, selectedAccount!!.currency, amount.toDouble())
+            val newAmount = if(isAnExpense){
+                selectedAccount!!.amount - convertedAmount
+            } else{
+                selectedAccount!!.amount + convertedAmount
+            }
+            val newAccount = Account(selectedAccount!!.id, selectedAccount!!.name, newAmount, selectedAccount!!.currency)
+            dataViewModel.updateAccount(newAccount)
             Toast.makeText(applicationContext, "Success!", Toast.LENGTH_SHORT).show()
             this.finish()
         }

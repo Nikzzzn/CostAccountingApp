@@ -1,10 +1,8 @@
 package com.example.costaccounting.data
 
 import androidx.lifecycle.LiveData
+import androidx.room.*
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
 
 @Dao
 interface Dao {
@@ -30,6 +28,9 @@ interface Dao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addAccount(account: Account)
+
+    @Update
+    suspend fun updateAccount(account: Account)
 
     @Query("SELECT * FROM accounts_table ORDER BY id ASC")
     fun getAllAccounts(): LiveData<List<Account>>
