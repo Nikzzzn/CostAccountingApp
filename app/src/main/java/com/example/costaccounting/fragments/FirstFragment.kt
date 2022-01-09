@@ -1,4 +1,4 @@
-package com.example.costaccounting
+package com.example.costaccounting.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.costaccounting.databinding.FragmentFirstBinding
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
-import android.R
 import androidx.viewpager2.widget.ViewPager2
+import com.example.costaccounting.activities.AddTransactionActivity
+import com.example.costaccounting.adapters.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 
 

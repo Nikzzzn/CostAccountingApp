@@ -1,4 +1,4 @@
-package com.example.costaccounting
+package com.example.costaccounting.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +9,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.costaccounting.R
+import com.example.costaccounting.adapters.TransactionsAdapter
 import com.example.costaccounting.data.DataViewModel
 
-class ExpensesFragment : Fragment() {
+class IncomesFragment : Fragment() {
 
     private lateinit var dataViewModel: DataViewModel
 
@@ -19,15 +21,15 @@ class ExpensesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_expenses, container, false)
+        val view = inflater.inflate(R.layout.fragment_incomes, container, false)
 
         val adapter = TransactionsAdapter()
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewExpenses)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewIncomes)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         dataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
-        dataViewModel.readAllExpenses.observe(viewLifecycleOwner, {
+        dataViewModel.getAllIncomes.observe(viewLifecycleOwner, Observer {
             adapter.setData(it)
         })
 

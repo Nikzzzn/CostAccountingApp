@@ -1,11 +1,12 @@
-package com.example.costaccounting
+package com.example.costaccounting.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.costaccounting.R
+import com.example.costaccounting.Util
 import com.example.costaccounting.data.TransactionWithAccount
 import java.util.*
 
@@ -64,6 +65,7 @@ class TransactionsAdapter: RecyclerView.Adapter<TransactionsAdapter.DataViewHold
                 val transactionItem = itemsList[position] as TransactionItem
                 holder.itemView.findViewById<TextView>(R.id.textViewTransactionCategory).text = transactionItem.item.transaction.category
                 holder.itemView.findViewById<TextView>(R.id.textViewTransactionAmount).text = transactionItem.item.transaction.amount.toString()
+                holder.itemView.findViewById<TextView>(R.id.textViewTransactionAccount).text = transactionItem.item.accountName
             }
         }
     }

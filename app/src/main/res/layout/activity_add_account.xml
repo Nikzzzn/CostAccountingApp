@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddTransactionActivity">
+    tools:context=".activities.AddTransactionActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarAddAccount"
@@ -91,7 +91,10 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Name" />
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
         </LinearLayout>
 
         <Button

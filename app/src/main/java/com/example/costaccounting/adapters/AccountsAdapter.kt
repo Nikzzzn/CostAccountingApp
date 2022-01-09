@@ -1,12 +1,12 @@
-package com.example.costaccounting
+package com.example.costaccounting.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.costaccounting.R
 import com.example.costaccounting.data.Account
-import com.example.costaccounting.data.Transaction
 
 class AccountsAdapter: RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>() {
 

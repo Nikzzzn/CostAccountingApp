@@ -1,4 +1,4 @@
-package com.example.costaccounting
+package com.example.costaccounting.activities
 
 import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +14,7 @@ import java.util.*
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.util.Log
+import com.example.costaccounting.Util
 import com.example.costaccounting.data.Account
 
 private lateinit var binding: ActivityAddTransactionBinding
@@ -56,7 +57,7 @@ class AddTransactionActivity : AppCompatActivity() {
                 myCalendar[Calendar.DAY_OF_MONTH]
             ).show()
         }
-        dataViewModel.readAllAccounts.observe(this, {
+        dataViewModel.getAllAccounts.observe(this, {
             accounts = it
         })
 
@@ -83,7 +84,8 @@ class AddTransactionActivity : AppCompatActivity() {
         val date = binding.editTextTransactionDate.text.toString()
 
         if(inputCheck(amount, category, date)){
-            val transaction = Transaction(0, isAnExpense, amount.toDouble(), selectedAccount!!, category, Util.getFullDateFormat().parse(date)!!)
+            val transaction = Transaction(0, isAnExpense, amount.toDouble(), selectedAccount!!, category, Util.getFullDateFormat()
+                .parse(date)!!)
             dataViewModel.addTransaction(transaction)
             Toast.makeText(applicationContext, "Success!", Toast.LENGTH_SHORT).show()
             this.finish()

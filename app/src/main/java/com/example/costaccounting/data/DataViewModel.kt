@@ -6,22 +6,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class DataViewModel(application: Application): AndroidViewModel(application) {
 
-    val readAllExpenses: LiveData<List<TransactionWithAccount>>
-    val readAllIncomes: LiveData<List<TransactionWithAccount>>
-    val readAllAccounts: LiveData<List<Account>>
-    val readAllAccountWithTransactions: LiveData<List<AccountWithTransactions>>
+    val getAllExpenses: LiveData<List<TransactionWithAccount>>
+    val getAllIncomes: LiveData<List<TransactionWithAccount>>
+    val getAllAccounts: LiveData<List<Account>>
+    val getAllAccountWithTransactions: LiveData<List<AccountWithTransactions>>
+    val getAllCurrencies: LiveData<List<String>>
     private val repository: Repository
 
     init{
         val dao = AppDatabase.getDatabase(application).dao()
         repository = Repository(dao)
-        readAllExpenses = repository.readAllExpenses
-        readAllIncomes = repository.readAllIncomes
-        readAllAccounts = repository.readAllAccounts
-        readAllAccountWithTransactions = repository.readAllAccountsWithTransactions
+        getAllExpenses = repository.getAllExpenses
+        getAllIncomes = repository.getAllIncomes
+        getAllAccounts = repository.getAllAccounts
+        getAllAccountWithTransactions = repository.getAllAccountsWithTransactions
+        getAllCurrencies = repository.getAllCurrencies
     }
 
     fun addTransaction(transaction: Transaction){
@@ -34,6 +37,20 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO){
             repository.addAccount(account)
         }
+    }
+
+    fun addUSDExchangeRate(usdExchangeRate: USDExchangeRate){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addUSDExchangeRate(usdExchangeRate)
+        }
+    }
+
+    fun getTotalSumForAllAccounts(baseCurrency: String): LiveData<Double>{
+        return repository.getTotalSumForAllAccounts(baseCurrency)
+    }
+
+    fun getUSDExchangeRateByName(name: String): Double{
+        return repository.getUSDExchangeRateByName(name)
     }
 
 }

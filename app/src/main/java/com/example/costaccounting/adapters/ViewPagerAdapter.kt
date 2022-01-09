@@ -1,11 +1,9 @@
-package com.example.costaccounting
+package com.example.costaccounting.adapters
 
-import android.util.Log
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.costaccounting.fragments.ExpensesFragment
+import com.example.costaccounting.fragments.IncomesFragment
 
 class ViewPagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
 

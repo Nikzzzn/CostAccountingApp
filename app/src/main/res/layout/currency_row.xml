@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/currencyRow">
 
     <TextView
-        android:id="@+id/textViewTransactionCategory"
+        android:id="@+id/textViewCurrencyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24sp"
@@ -19,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewTransactionAmount"
+        android:id="@+id/textViewCurrencyCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -29,12 +30,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewTransactionAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/textViewTransactionAmount"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTransactionAmount" />
 </androidx.constraintlayout.widget.ConstraintLayout>

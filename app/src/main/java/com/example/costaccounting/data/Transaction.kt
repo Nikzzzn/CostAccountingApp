@@ -19,6 +19,7 @@ data class Transaction(
     @ColumnInfo(name="transaction_id")
     val id: Int,
     val isAnExpense: Boolean,
+    @ColumnInfo(name="transaction_amount")
     val amount: Double,
     val account_id: Int,
     val category: String,

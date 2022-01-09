@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.costaccounting.Converters
 
-@Database(entities = [Transaction::class, Account::class], version = 1, exportSchema = false)
+@Database(entities = [Transaction::class, Account::class, USDExchangeRate::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase(){
 
@@ -27,7 +27,7 @@ abstract class AppDatabase: RoomDatabase(){
                     context.applicationContext,
                     AppDatabase::class.java,
                     "app_database"
-                ).build()
+                ).createFromAsset("Database/app_database").build() //.createFromAsset("Database/app_database")
                 INSTANCE = instance
                 return instance
             }
