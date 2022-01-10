@@ -1,17 +1,22 @@
 package com.example.costaccounting.data
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 import java.util.Date
 
+@Parcelize
 @Entity(
     tableName = "transactions_table",
     foreignKeys = [ForeignKey(
         entity = Account::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("account_id"),
+        onDelete = CASCADE
     ), ForeignKey(
         entity = USDExchangeRate::class,
         parentColumns = arrayOf("currency_name"),
@@ -29,4 +34,4 @@ data class Transaction(
     val currency: String,
     val category: String,
     val date: Date
-)
+): Parcelable

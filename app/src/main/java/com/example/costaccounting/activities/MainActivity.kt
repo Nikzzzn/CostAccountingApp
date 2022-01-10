@@ -22,8 +22,8 @@ import com.example.costaccounting.R
 import com.example.costaccounting.Util
 import com.example.costaccounting.data.DataViewModel
 import com.example.costaccounting.data.USDExchangeRate
-import com.example.costaccounting.fragments.FirstFragment
-import com.example.costaccounting.fragments.SecondFragment
+import com.example.costaccounting.fragments.TransactionsFragment
+import com.example.costaccounting.fragments.AccountsFragment
 import com.example.costaccounting.fragments.ThirdFragment
 import org.json.JSONObject
 
@@ -85,10 +85,10 @@ class MainActivity : AppCompatActivity() {
         var fragment: Fragment? = null
 
         val fragmentClass = when (menuItem.itemId) {
-            R.id.nav_first_fragment -> FirstFragment::class.java
-            R.id.nav_second_fragment -> SecondFragment::class.java
+            R.id.nav_first_fragment -> TransactionsFragment::class.java
+            R.id.nav_second_fragment -> AccountsFragment::class.java
             R.id.nav_third_fragment -> ThirdFragment::class.java
-            else -> FirstFragment::class.java
+            else -> TransactionsFragment::class.java
         }
 
         try {

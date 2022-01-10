@@ -12,6 +12,12 @@ interface Dao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTransaction(transaction: Transaction)
 
+    @Update
+    suspend fun updateTransaction(transaction: Transaction)
+
+    @Delete
+    suspend fun deleteTransaction(transaction: Transaction)
+
     @Query("SELECT transactions_table.*, accounts_table.name AS accountName " +
             "FROM transactions_table " +
             "INNER JOIN accounts_table ON transactions_table.account_id = accounts_table.id " +
@@ -32,8 +38,14 @@ interface Dao {
     @Update
     suspend fun updateAccount(account: Account)
 
+    @Delete
+    suspend fun deleteAccount(account: Account)
+
     @Query("SELECT * FROM accounts_table ORDER BY id ASC")
     fun getAllAccounts(): LiveData<List<Account>>
+
+    @Query("SELECT * FROM accounts_table WHERE id = :id")
+    fun getAccountById(id: Int): LiveData<Account>
 
     @androidx.room.Transaction
     @Query("SELECT * FROM accounts_table ORDER BY id ASC")

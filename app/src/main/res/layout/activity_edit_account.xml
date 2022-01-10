@@ -4,20 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AddAccountActivity">
+    tools:context=".activities.EditAccountActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarAddAccount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryDark"
-        android:fitsSystemWindows="true"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include
+        android:id="@+id/toolbar_edit_account"
+        layout="@layout/toolbar_edit" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarAddAccount">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_edit_account">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,7 +33,7 @@
                 android:text="Name" />
 
             <EditText
-                android:id="@+id/editTextAccountName"
+                android:id="@+id/editTextEditAccountName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -64,7 +55,7 @@
                 android:text="Amount" />
 
             <EditText
-                android:id="@+id/editTextAccountAmount"
+                android:id="@+id/editTextEditAccountAmount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -85,7 +76,7 @@
                 android:text="Currency" />
 
             <EditText
-                android:id="@+id/editTextAccountCurrency"
+                android:id="@+id/editTextEditAccountCurrency"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -98,7 +89,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/buttonAccountAdd"
+            android:id="@+id/buttonAccountSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add" />

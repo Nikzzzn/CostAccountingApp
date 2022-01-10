@@ -18,9 +18,6 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 
 import android.content.Intent
 
-
-
-
 private lateinit var binding: ActivityAddAccountBinding
 private lateinit var dataViewModel: DataViewModel
 private lateinit var prefs: SharedPreferences
@@ -33,6 +30,7 @@ class AddAccountActivity : AppCompatActivity() {
         setContentView(view)
 
         dataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
+
         setSupportActionBar(binding.toolbarAddAccount)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         title = "New account"

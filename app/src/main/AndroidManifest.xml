@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CostAccounting">
         <activity
+            android:name=".activities.EditAccountActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.EditTransactionActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.ChooseCurrencyActivity"
             android:exported="true" />
         <activity

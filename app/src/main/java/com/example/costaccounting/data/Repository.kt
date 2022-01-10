@@ -14,12 +14,23 @@ class Repository(private val dao: Dao) {
         dao.addTransaction(transaction)
     }
 
+    suspend fun updateTransaction(transaction: Transaction){
+        dao.updateTransaction(transaction)
+    }
+
+    suspend fun deleteTransaction(transaction: Transaction){
+        dao.deleteTransaction(transaction)
+    }
+
     suspend fun addAccount(account: Account){
         dao.addAccount(account)
     }
 
     suspend fun updateAccount(account: Account){
         dao.updateAccount(account)
+    }
+    suspend fun deleteAccount(account: Account){
+        dao.deleteAccount(account)
     }
 
     suspend fun addUSDExchangeRate(usdExchangeRate: USDExchangeRate){
@@ -32,6 +43,10 @@ class Repository(private val dao: Dao) {
 
     fun getUSDExchangeRateByName(name: String): Double{
         return dao.getUSDExchangeRateByName(name)
+    }
+
+    fun getAccountById(id: Int): LiveData<Account>{
+        return dao.getAccountById(id)
     }
 
 }

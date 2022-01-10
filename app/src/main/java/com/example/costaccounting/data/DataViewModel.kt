@@ -33,6 +33,18 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun updateTransaction(transaction: Transaction){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateTransaction(transaction)
+        }
+    }
+
+    fun deleteTransaction(transaction: Transaction){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteTransaction(transaction)
+        }
+    }
+
     fun addAccount(account: Account){
         viewModelScope.launch(Dispatchers.IO){
             repository.addAccount(account)
@@ -42,6 +54,12 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
     fun updateAccount(account: Account){
         viewModelScope.launch(Dispatchers.IO){
             repository.updateAccount(account)
+        }
+    }
+
+    fun deleteAccount(account: Account){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.deleteAccount(account)
         }
     }
 
@@ -57,6 +75,10 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
 
     fun getUSDExchangeRateByName(name: String): Double{
         return repository.getUSDExchangeRateByName(name)
+    }
+
+    fun getAccountById(id: Int): LiveData<Account>{
+        return repository.getAccountById(id)
     }
 
 }

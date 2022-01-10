@@ -6,23 +6,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.costaccounting.databinding.FragmentFirstBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import androidx.viewpager2.widget.ViewPager2
 import com.example.costaccounting.activities.AddTransactionActivity
 import com.example.costaccounting.adapters.ViewPagerAdapter
+import com.example.costaccounting.databinding.FragmentTransactionsBinding
 import com.google.android.material.tabs.TabLayout
 
 
-class FirstFragment : Fragment() {
+class TransactionsFragment : Fragment() {
 
-    private lateinit var binding: FragmentFirstBinding
+    private lateinit var binding: FragmentTransactionsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFirstBinding.inflate(inflater, container, false)
+        binding = FragmentTransactionsBinding.inflate(inflater, container, false)
 
         val viewPager: ViewPager2 = binding.viewPager
         val tabLayout: TabLayout = binding.tabLayout

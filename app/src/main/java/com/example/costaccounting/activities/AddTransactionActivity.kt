@@ -96,11 +96,12 @@ class AddTransactionActivity : AppCompatActivity() {
 
     private fun insertDataToDatabase(isAnExpense: Boolean) {
         val amount = binding.editTextTransactionAmount.text.toString()
+        val account = binding.editTextTransactionAccount.text.toString()
         val currency = binding.editTextTransactionCurrency.text.toString()
         val category = binding.editTextTransactionCategory.text.toString()
         val date = binding.editTextTransactionDate.text.toString()
 
-        if(inputCheck(amount, category, date)){
+        if(inputCheck(amount, account, currency, category, date)){
             val transaction = Transaction(0, isAnExpense, amount.toDouble(), selectedAccount!!.id,
                 currency, category, Util.getFullDateFormat().parse(date)!!)
             dataViewModel.addTransaction(transaction)
@@ -118,8 +119,12 @@ class AddTransactionActivity : AppCompatActivity() {
         }
     }
 
-    private fun inputCheck(amount: String, category: String, date: String): Boolean{
-        return !(TextUtils.isEmpty(amount) && TextUtils.isEmpty(category) && TextUtils.isEmpty(date))
+    private fun inputCheck(amount: String, account: String, currency: String, category: String, date: String): Boolean{
+        return !(TextUtils.isEmpty(amount) &&
+                 TextUtils.isEmpty(account) &&
+                 TextUtils.isEmpty(currency) &&
+                 TextUtils.isEmpty(category) &&
+                 TextUtils.isEmpty(date))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

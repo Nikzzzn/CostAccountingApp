@@ -1,16 +1,20 @@
 package com.example.costaccounting.adapters
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.costaccounting.R
 import com.example.costaccounting.Util
+import com.example.costaccounting.activities.EditTransactionActivity
 import com.example.costaccounting.data.TransactionWithAccount
 import java.util.*
 
-class TransactionsAdapter: RecyclerView.Adapter<TransactionsAdapter.DataViewHolder>() {
+class TransactionsAdapter(val context: Context): RecyclerView.Adapter<TransactionsAdapter.DataViewHolder>() {
 
     private var transactionsList = emptyList<TransactionItem>()
     private var itemsList = mutableListOf<RecyclerItem>()
@@ -62,10 +66,16 @@ class TransactionsAdapter: RecyclerView.Adapter<TransactionsAdapter.DataViewHold
 
             }
             RecyclerItem.typeTransaction -> {
-                val transactionItem = itemsList[position] as TransactionItem
-                holder.itemView.findViewById<TextView>(R.id.textViewTransactionCategory).text = transactionItem.item.transaction.category
-                holder.itemView.findViewById<TextView>(R.id.textViewTransactionAmount).text = transactionItem.item.transaction.amount.toString()
-                holder.itemView.findViewById<TextView>(R.id.textViewTransactionAccount).text = transactionItem.item.accountName
+                val transaction = (itemsList[position] as TransactionItem).item
+                holder.itemView.findViewById<TextView>(R.id.textViewTransactionCategory).text = transaction.transaction.category
+                holder.itemView.findViewById<TextView>(R.id.textViewTransactionAmount).text = transaction.transaction.amount.toString()
+                holder.itemView.findViewById<TextView>(R.id.textViewTransactionAccount).text = transaction.accountName
+
+                holder.itemView.findViewById<ConstraintLayout>(R.id.transactionRow).setOnClickListener{
+                    val intent = Intent(context, EditTransactionActivity::class.java)
+                    intent.putExtra("transaction", transaction)
+                    context.startActivity(intent)
+                }
             }
         }
     }

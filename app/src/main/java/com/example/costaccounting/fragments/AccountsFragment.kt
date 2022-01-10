@@ -14,22 +14,22 @@ import com.example.costaccounting.activities.AddAccountActivity
 import com.example.costaccounting.Util
 import com.example.costaccounting.adapters.AccountsAdapter
 import com.example.costaccounting.data.DataViewModel
-import com.example.costaccounting.databinding.FragmentSecondBinding
+import com.example.costaccounting.databinding.FragmentAccountsBinding
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-class SecondFragment : Fragment() {
+class AccountsFragment : Fragment() {
 
     private lateinit var dataViewModel: DataViewModel
-    private lateinit var binding: FragmentSecondBinding
+    private lateinit var binding: FragmentAccountsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSecondBinding.inflate(inflater, container, false)
+        binding = FragmentAccountsBinding.inflate(inflater, container, false)
 
-        val adapter = AccountsAdapter()
+        val adapter = AccountsAdapter(requireContext())
         val recyclerView = binding.recyclerViewAccounts
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
