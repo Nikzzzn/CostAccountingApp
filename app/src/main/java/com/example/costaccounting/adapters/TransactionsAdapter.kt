@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.costaccounting.R
-import com.example.costaccounting.Util
+import com.example.costaccounting.helpers.Util
 import com.example.costaccounting.activities.EditTransactionActivity
 import com.example.costaccounting.data.TransactionWithAccount
 import java.util.*

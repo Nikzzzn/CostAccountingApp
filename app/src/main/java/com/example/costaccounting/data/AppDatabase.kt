@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.costaccounting.Converters
+import com.example.costaccounting.helpers.Converters
 
 @Database(entities = [Transaction::class, Account::class, USDExchangeRate::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)

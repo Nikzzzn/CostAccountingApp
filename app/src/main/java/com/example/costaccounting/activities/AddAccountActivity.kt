@@ -1,6 +1,5 @@
 package com.example.costaccounting.activities
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
@@ -10,11 +9,10 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.costaccounting.Util
+import com.example.costaccounting.helpers.Util
 import com.example.costaccounting.data.Account
 import com.example.costaccounting.data.DataViewModel
 import com.example.costaccounting.databinding.ActivityAddAccountBinding
-import androidx.core.app.ActivityCompat.startActivityForResult
 
 import android.content.Intent
 

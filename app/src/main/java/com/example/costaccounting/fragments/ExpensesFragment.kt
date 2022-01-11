@@ -27,10 +27,20 @@ class ExpensesFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        dataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
-        dataViewModel.getAllExpenses.observe(viewLifecycleOwner, {
-            adapter.setData(it)
-        })
+        val bundle = this.arguments
+        val selectedId = bundle?.getInt("selectedId", -1)
+
+        if(selectedId == -1){
+            dataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
+            dataViewModel.getAllExpenses.observe(viewLifecycleOwner, {
+                adapter.setData(it)
+            })
+        } else{
+            dataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
+            dataViewModel.getAllExpensesByAccountId(selectedId!!).observe(viewLifecycleOwner, {
+                adapter.setData(it)
+            })
+        }
 
         return view
     }

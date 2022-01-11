@@ -21,18 +21,20 @@ class TransactionsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentTransactionsBinding.inflate(inflater, container, false)
 
         val viewPager: ViewPager2 = binding.viewPager
         val tabLayout: TabLayout = binding.tabLayout
 
-        val adapter = ViewPagerAdapter(this)
+        val bundle = this.arguments
+        val selectedId = bundle?.getInt("selectedId", -1)
+
+        val adapter = ViewPagerAdapter(this, selectedId!!)
         viewPager.adapter = adapter
 
         TabLayoutMediator(tabLayout, viewPager) {
                 tab, position -> tab.text = adapter.fragmentNames[position]
-
         }.attach()
 
         val fab: View = binding.fabTransactions

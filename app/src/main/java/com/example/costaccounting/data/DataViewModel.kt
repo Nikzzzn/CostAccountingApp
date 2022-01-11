@@ -73,12 +73,24 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
         return repository.getTotalSumForAllAccounts(baseCurrency)
     }
 
+    fun getTotalSumForAccountById(baseCurrency: String, id: Int): LiveData<Double>{
+        return repository.getTotalSumForAccountById(baseCurrency, id)
+    }
+
     fun getUSDExchangeRateByName(name: String): Double{
         return repository.getUSDExchangeRateByName(name)
     }
 
     fun getAccountById(id: Int): LiveData<Account>{
         return repository.getAccountById(id)
+    }
+
+    fun getAllIncomesByAccountId(id: Int): LiveData<List<TransactionWithAccount>>{
+        return repository.getAllIncomesByAccountId(id)
+    }
+
+    fun getAllExpensesByAccountId(id: Int): LiveData<List<TransactionWithAccount>>{
+        return repository.getAllExpensesByAccountId(id)
     }
 
 }

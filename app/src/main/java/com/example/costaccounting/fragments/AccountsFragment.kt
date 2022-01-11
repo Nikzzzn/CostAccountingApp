@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.costaccounting.activities.AddAccountActivity
-import com.example.costaccounting.Util
+import com.example.costaccounting.helpers.Util
 import com.example.costaccounting.adapters.AccountsAdapter
 import com.example.costaccounting.data.DataViewModel
 import com.example.costaccounting.databinding.FragmentAccountsBinding

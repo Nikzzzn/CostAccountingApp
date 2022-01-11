@@ -22,6 +22,18 @@ class Repository(private val dao: Dao) {
         dao.deleteTransaction(transaction)
     }
 
+    fun getAllIncomesByAccountId(id: Int): LiveData<List<TransactionWithAccount>>{
+        return dao.getAllIncomesByAccountId(id)
+    }
+
+    fun getAllExpensesByAccountId(id: Int): LiveData<List<TransactionWithAccount>>{
+        return dao.getAllExpensesByAccountId(id)
+    }
+
+    fun getExpensesByDay(dayOfYear: String): LiveData<List<TransactionWithAccount>>{
+        return dao.getExpensesByDay(dayOfYear)
+    }
+
     suspend fun addAccount(account: Account){
         dao.addAccount(account)
     }
@@ -39,6 +51,10 @@ class Repository(private val dao: Dao) {
 
     fun getTotalSumForAllAccounts(baseCurrency: String): LiveData<Double>{
         return dao.getTotalSumForAllAccounts(baseCurrency)
+    }
+
+    fun getTotalSumForAccountById(baseCurrency: String, id: Int): LiveData<Double>{
+        return dao.getTotalSumForAccountById(baseCurrency, id)
     }
 
     fun getUSDExchangeRateByName(name: String): Double{

@@ -1,4 +1,4 @@
-package com.example.costaccounting
+package com.example.costaccounting.helpers
 
 import androidx.room.TypeConverter
 import java.util.*

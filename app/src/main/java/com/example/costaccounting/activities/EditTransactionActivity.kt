@@ -6,14 +6,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import com.example.costaccounting.databinding.ActivityEditTransactionBinding
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.costaccounting.R
-import com.example.costaccounting.Util
+import com.example.costaccounting.helpers.Util
 import com.example.costaccounting.activities.*
 import com.example.costaccounting.data.Account
 import com.example.costaccounting.data.DataViewModel

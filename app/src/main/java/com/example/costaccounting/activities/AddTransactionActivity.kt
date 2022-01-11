@@ -14,8 +14,7 @@ import java.util.*
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Intent
-import android.util.Log
-import com.example.costaccounting.Util
+import com.example.costaccounting.helpers.Util
 import com.example.costaccounting.data.Account
 
 private lateinit var binding: ActivityAddTransactionBinding
