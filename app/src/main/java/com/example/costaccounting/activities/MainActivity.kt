@@ -12,7 +12,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.costaccounting.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
-import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.TextView
@@ -25,7 +24,7 @@ import com.android.volley.toolbox.Volley
 import com.example.costaccounting.BuildConfig
 import com.example.costaccounting.R
 import com.example.costaccounting.data.Account
-import com.example.costaccounting.helpers.Util
+import com.example.costaccounting.helpers.Utils
 import com.example.costaccounting.data.DataViewModel
 import com.example.costaccounting.data.USDExchangeRate
 import com.example.costaccounting.fragments.TransactionsFragment
@@ -36,6 +35,8 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.concurrent.CountDownLatch
 import android.os.AsyncTask
+import androidx.appcompat.app.AppCompatDelegate
+import com.example.costaccounting.fragments.SettingsFragment
 
 private lateinit var binding: ActivityMainBinding
 private lateinit var drawerLayout: DrawerLayout
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         updateExchangeRates()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -117,6 +119,7 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_transactions_fragment -> TransactionsFragment::class.java
             R.id.nav_accounts_fragment -> AccountsFragment::class.java
             R.id.nav_categories_fragment -> CategoriesFragment::class.java
+            R.id.nav_settings_fragment -> SettingsFragment::class.java
             else -> AccountsFragment::class.java
         }
 
@@ -133,9 +136,9 @@ class MainActivity : AppCompatActivity() {
             transactionsConstraintLayout.setOnClickListener{textViewAccountClickListener()}
 
             transactionsTextViewAmount.visibility = VISIBLE
-            val prefs = this.getSharedPreferences(Util.PREFS_NAME, MODE_PRIVATE)
-            val baseCurrency = prefs!!.getString(Util.PREF_BASE_CURRENCY_KEY, "USD")!!
-            dataViewModel.getTotalSumForAllAccounts(baseCurrency).observe(this, Observer {
+            val prefs = this.getSharedPreferences(Utils.PREFS_NAME, MODE_PRIVATE)
+            val baseCurrency = prefs!!.getString(Utils.PREF_BASE_CURRENCY_KEY, "USD")!!
+            dataViewModel.getTotalSumForAllAccounts(baseCurrency).observe(this, {
                 val amount = BigDecimal(it).setScale(2, RoundingMode.HALF_EVEN)
                 transactionsTextViewAmount.text = "$amount $baseCurrency"
             })
@@ -171,8 +174,8 @@ class MainActivity : AppCompatActivity() {
             }
             transactionsTextViewName.text = items[which]
 
-            val prefs = this.getSharedPreferences(Util.PREFS_NAME, MODE_PRIVATE)
-            val baseCurrency = prefs!!.getString(Util.PREF_BASE_CURRENCY_KEY, "USD")!!
+            val prefs = this.getSharedPreferences(Utils.PREFS_NAME, MODE_PRIVATE)
+            val baseCurrency = prefs!!.getString(Utils.PREF_BASE_CURRENCY_KEY, "USD")!!
             if(selectedId == -1){
                 dataViewModel.getTotalSumForAllAccounts(baseCurrency).observe(this, {
                     val amount = BigDecimal(it).setScale(2, RoundingMode.HALF_EVEN)
@@ -197,7 +200,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
+            return true
         }
         return super.onOptionsItemSelected(item)
     }
@@ -214,8 +217,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkFirstRun(): Boolean {
         val currentVersionCode = BuildConfig.VERSION_CODE
-        val prefs = getSharedPreferences(Util.PREFS_NAME, MODE_PRIVATE)
-        val savedVersionCode = prefs.getInt(Util.PREF_VERSION_CODE_KEY, Util.VERSION_DOESNT_EXIST)
+        val prefs = getSharedPreferences(Utils.PREFS_NAME, MODE_PRIVATE)
+        val savedVersionCode = prefs.getInt(Utils.PREF_VERSION_CODE_KEY, Utils.VERSION_DOESNT_EXIST)
 
         if(currentVersionCode == savedVersionCode){
             return false
@@ -223,7 +226,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, AddAccountActivity::class.java)
             intent.putExtra("firstRun", true)
             startActivityForResult(intent, 1)
-            prefs.edit().putInt(Util.PREF_VERSION_CODE_KEY, currentVersionCode).apply()
+            prefs.edit().putInt(Utils.PREF_VERSION_CODE_KEY, currentVersionCode).apply()
         }
 
         return true
@@ -239,7 +242,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateExchangeRates(){
-        val API_KEY = Util.API_KEY
+        val API_KEY = Utils.API_KEY
         val dataViewModel: DataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
         val queue = Volley.newRequestQueue(this)
 

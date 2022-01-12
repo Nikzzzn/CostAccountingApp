@@ -13,6 +13,8 @@ import com.example.costaccounting.R
 import com.example.costaccounting.data.Account
 import com.example.costaccounting.data.DataViewModel
 import com.example.costaccounting.databinding.ActivityEditAccountBinding
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 private lateinit var binding: ActivityEditAccountBinding
 private lateinit var dataViewModel: DataViewModel
@@ -28,11 +30,12 @@ class EditAccountActivity : AppCompatActivity() {
 
         dataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
         setSupportActionBar(binding.toolbarEditAccount.toolbarEdit)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         title = getString(R.string.editAccountActivityTitle)
 
         account = intent.getParcelableExtra("account")!!
-        binding.editTextEditAccountAmount.setText(account.amount.toString())
+        val amount = BigDecimal(account.amount).setScale(2, RoundingMode.HALF_EVEN)
+        binding.editTextEditAccountAmount.setText(amount.toString())
         binding.editTextEditAccountName.setText(account.name)
         binding.editTextEditAccountCurrency.setText(account.currency)
 
@@ -84,7 +87,7 @@ class EditAccountActivity : AppCompatActivity() {
         when(item.itemId){
             android.R.id.home -> {
                 finish()
-                return true;
+                return true
             }
             R.id.delete_item -> {
                 deleteAccount()

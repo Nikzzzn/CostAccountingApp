@@ -15,6 +15,10 @@
             android:id="@+id/nav_categories_fragment"
             android:icon="@drawable/ic_baseline_filter_3_24"
             android:title="@string/categoriesItem"/>
+        <item
+            android:id="@+id/nav_settings_fragment"
+            android:icon="@drawable/ic_baseline_filter_3_24"
+            android:title="@string/settingsItem"/>
     </group>
 
 </menu>

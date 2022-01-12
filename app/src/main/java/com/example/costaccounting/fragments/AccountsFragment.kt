@@ -2,18 +2,15 @@ package com.example.costaccounting.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.costaccounting.BuildConfig
 import com.example.costaccounting.activities.AddAccountActivity
-import com.example.costaccounting.helpers.Util
+import com.example.costaccounting.helpers.Utils
 import com.example.costaccounting.adapters.AccountsAdapter
 import com.example.costaccounting.data.DataViewModel
 import com.example.costaccounting.databinding.FragmentAccountsBinding
@@ -41,8 +38,8 @@ class AccountsFragment : Fragment() {
             adapter.setData(it)
         })
 
-        val prefs = activity?.getSharedPreferences(Util.PREFS_NAME, AppCompatActivity.MODE_PRIVATE)
-        val baseCurrency = prefs!!.getString(Util.PREF_BASE_CURRENCY_KEY, "USD")!!
+        val prefs = activity?.getSharedPreferences(Utils.PREFS_NAME, AppCompatActivity.MODE_PRIVATE)
+        val baseCurrency = prefs!!.getString(Utils.PREF_BASE_CURRENCY_KEY, "USD")!!
         dataViewModel.getTotalSumForAllAccounts(baseCurrency).observe(viewLifecycleOwner, {
             val amount = BigDecimal(it ?: 0.0).setScale(2, RoundingMode.HALF_EVEN)
             binding.textViewAccountsTotal.text = "$amount $baseCurrency"

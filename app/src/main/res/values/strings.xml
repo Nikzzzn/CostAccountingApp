@@ -196,4 +196,6 @@
     <string name="total">Total:</string>
     <string name="expenses">Expenses</string>
     <string name="incomes">Incomes</string>
+    <string name="settingsItem">Settings</string>
+    <string name="settingsBaseCurrency">Base currency</string>
 </resources>

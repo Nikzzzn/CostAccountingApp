@@ -109,7 +109,7 @@
     <string name="LAK">Kip Laotański</string>
     <string name="CDF">Frank Kongijski</string>
     <string name="GNF">Frank Gwinejski</string>
-    <string name="BIF">" Frank Burundyjski"</string>
+    <string name="BIF">Frank Burundyjski</string>
     <string name="CUC">Peso Kubańskie</string>
     <string name="BYR">Rubel Białoruski</string>
     <string name="URY">Peso Urugwajskie</string>
@@ -140,7 +140,7 @@
     <string name="BTC">Bitcoin</string>
     <string name="ETH">Ethereum</string>
     <string name="LTC">Litecoin</string>
-    <string name="GYD">" Dolar Gujański"</string>
+    <string name="GYD">Dolar Gujański</string>
     <string name="food">Jedzenie</string>
     <string name="vehicles">Transport</string>
     <string name="home">Dom</string>
@@ -193,4 +193,6 @@
     <string name="total">Całkiem:</string>
     <string name="expenses">Wydatki</string>
     <string name="incomes">Dochody</string>
+    <string name="settingsItem">Ustawienia</string>
+    <string name="settingsBaseCurrency">Podstawowa waluta</string>
 </resources>

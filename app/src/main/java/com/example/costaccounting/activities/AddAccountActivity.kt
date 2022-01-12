@@ -1,22 +1,19 @@
 package com.example.costaccounting.activities
 
 import android.app.AlertDialog
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.costaccounting.helpers.Util
+import com.example.costaccounting.helpers.Utils
 import com.example.costaccounting.data.Account
 import com.example.costaccounting.data.DataViewModel
 import com.example.costaccounting.databinding.ActivityAddAccountBinding
 
 import android.content.Intent
 import com.example.costaccounting.R
-import com.example.costaccounting.fragments.AccountsFragment
 
 private lateinit var binding: ActivityAddAccountBinding
 private lateinit var dataViewModel: DataViewModel
@@ -32,7 +29,7 @@ class AddAccountActivity : AppCompatActivity() {
         dataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
 
         setSupportActionBar(binding.toolbarAddAccount)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         title = getString(R.string.addAccountActivityTitle)
 
         binding.buttonAccountAdd.setOnClickListener{
@@ -71,8 +68,8 @@ class AddAccountActivity : AppCompatActivity() {
             dataViewModel.addAccount(account)
             if(firstRun){
                 baseCurrencyDialog(currency).show()
-                val prefs = getSharedPreferences(Util.PREFS_NAME, MODE_PRIVATE)
-                prefs.edit().putString(Util.PREF_BASE_CURRENCY_KEY, currency).apply()
+                val prefs = getSharedPreferences(Utils.PREFS_NAME, MODE_PRIVATE)
+                prefs.edit().putString(Utils.PREF_BASE_CURRENCY_KEY, currency).apply()
                 val intent = Intent()
                 intent.putExtra("amount", amount)
                 intent.putExtra("currency", currency)
@@ -91,7 +88,7 @@ class AddAccountActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             finish()
-            return true;
+            return true
         }
         return super.onOptionsItemSelected(item)
     }

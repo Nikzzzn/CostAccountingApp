@@ -91,7 +91,7 @@ class CurrencyAdapter(val context: Context): RecyclerView.Adapter<CurrencyAdapte
         currencyList = namesList.zip(currencyCodes) { a, b ->
             Currency(a, b)
         }.toMutableList()
-        currencyList.sortBy { it.name }  //нужно ли?
+        currencyList.sortBy { it.name }
         currencyListFull = currencyList.toMutableList()
 
         notifyDataSetChanged()

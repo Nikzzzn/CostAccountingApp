@@ -14,9 +14,8 @@ import java.util.*
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Intent
-import android.util.Log
 import com.example.costaccounting.R
-import com.example.costaccounting.helpers.Util
+import com.example.costaccounting.helpers.Utils
 import com.example.costaccounting.data.Account
 import com.example.costaccounting.data.Category
 
@@ -125,7 +124,7 @@ class AddTransactionActivity : AppCompatActivity() {
     }
 
     private fun updateLabel() {
-        binding.editTextTransactionDate.setText(Util.getFullDateFormat().format(myCalendar.time))
+        binding.editTextTransactionDate.setText(Utils.getFullDateFormat().format(myCalendar.time))
     }
 
     private fun insertDataToDatabase(isAnExpense: Boolean) {
@@ -137,10 +136,10 @@ class AddTransactionActivity : AppCompatActivity() {
 
         if(inputCheck(amount, account, currency, category, date)){
             val transaction = Transaction(0, isAnExpense, amount.toDouble(), selectedAccount!!.id,
-                currency, selectedCategory!!.id, Util.getFullDateFormat().parse(date)!!)
+                currency, selectedCategory!!.id, Utils.getFullDateFormat().parse(date)!!)
             dataViewModel.addTransaction(transaction)
 
-            val convertedAmount = Util.convertCurrency(this, currency, selectedAccount!!.currency, amount.toDouble())
+            val convertedAmount = Utils.convertCurrency(this, currency, selectedAccount!!.currency, amount.toDouble())
             val newAmount = if(isAnExpense){
                 selectedAccount!!.amount - convertedAmount
             } else{
@@ -154,10 +153,10 @@ class AddTransactionActivity : AppCompatActivity() {
     }
 
     private fun inputCheck(amount: String, account: String, currency: String, category: String, date: String): Boolean{
-        return !(TextUtils.isEmpty(amount) &&
-                 TextUtils.isEmpty(account) &&
-                 TextUtils.isEmpty(currency) &&
-                 TextUtils.isEmpty(category) &&
+        return !(TextUtils.isEmpty(amount) ||
+                 TextUtils.isEmpty(account) ||
+                 TextUtils.isEmpty(currency) ||
+                 TextUtils.isEmpty(category) ||
                  TextUtils.isEmpty(date))
     }
 

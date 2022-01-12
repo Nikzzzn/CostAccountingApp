@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24sp"
         android:text="@string/category"
+        android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="6dp"
         android:text="@string/amount"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/textViewTransactionCurrency"
         app:layout_constraintTop_toTopOf="@+id/textViewTransactionCurrency" />
@@ -45,6 +47,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
         android:text="USD"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -2,7 +2,6 @@ package com.example.costaccounting.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.costaccounting.R
-import com.example.costaccounting.helpers.Util
+import com.example.costaccounting.helpers.Utils
 import com.example.costaccounting.activities.EditTransactionActivity
 import com.example.costaccounting.data.TransactionWithAccount
 import java.math.BigDecimal
@@ -60,9 +59,9 @@ class TransactionsAdapter(val context: Context): RecyclerView.Adapter<Transactio
         when(holder.itemViewType){
             RecyclerItem.typeDate -> {
                 val dateItem : DateItem = itemsList[position] as DateItem
-                val dayString = Util.getDayDateFormat().format(dateItem.displayDate)
-                val monthString = Util.getMonthDateFormat().format(dateItem.displayDate)
-                val yearString = Util.getYearDateFormat().format(dateItem.displayDate)
+                val dayString = Utils.getDayDateFormat().format(dateItem.displayDate)
+                val monthString = Utils.getMonthDateFormat().format(dateItem.displayDate)
+                val yearString = Utils.getYearDateFormat().format(dateItem.displayDate)
                 val date = "$dayString $monthString $yearString"
 
                 holder.itemView.findViewById<TextView>(R.id.textViewTransactionDate).text = date

@@ -2,7 +2,6 @@ package com.example.costaccounting.activities
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.app.appsearch.GetSchemaResponse
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,9 +12,11 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.costaccounting.R
-import com.example.costaccounting.helpers.Util
+import com.example.costaccounting.helpers.Utils
 import com.example.costaccounting.activities.*
 import com.example.costaccounting.data.*
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 
 private lateinit var binding: ActivityEditTransactionBinding
@@ -38,17 +39,20 @@ class EditTransactionActivity : AppCompatActivity() {
 
         dataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
         setSupportActionBar(binding.toolbarEditTransaction.toolbarEdit)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         title = getString(R.string.editTransactionActivityTitle)
 
         val transactionWithAccount = intent.getParcelableExtra<TransactionWithAccount>("transaction")
         transaction = transactionWithAccount!!.transaction
-        binding.editTextEditTransactionAmount.setText(transaction.amount.toString())
+        val categoryId = resources.getIdentifier(transactionWithAccount.categoryName, "string", packageName)
+        val categoryName = if (categoryId != 0) getString(categoryId) else transactionWithAccount.categoryName
+        val amount = BigDecimal(transaction.amount).setScale(2, RoundingMode.HALF_EVEN)
+        binding.editTextEditTransactionAmount.setText(amount.toString())
         binding.editTextEditTransactionAccount.setText(transactionWithAccount.accountName)
         binding.editTextEditTransactionCurrency.setText(transaction.currency)
-        binding.editTextEditTransactionCategory.setText(transactionWithAccount.categoryName)
+        binding.editTextEditTransactionCategory.setText(categoryName)
         binding.editTextEditTransactionDate.setText(
-            Util.getFullDateFormat().format(transaction.date))
+            Utils.getFullDateFormat().format(transaction.date))
 
         dataViewModel.getAccountById(transaction.account_id).observe(this, {
             oldAccount = it
@@ -103,13 +107,13 @@ class EditTransactionActivity : AppCompatActivity() {
         binding.editTextEditTransactionCategory.setOnClickListener{
             val builder = AlertDialog.Builder(this@EditTransactionActivity)
             builder.setTitle(getString(R.string.categorySelectorTitle))
-            val items = arrayOf<String>()
+            var items = arrayOf<String>()
             for(category in categories?.map{ it.name }!!){
                 val id = resources.getIdentifier(category, "string", packageName)
                 if(id != 0){
-                    items.plus(resources.getString(id))
+                    items = items.plus(resources.getString(id))
                 } else{
-                    items.plus(category)
+                    items = items.plus(category)
                 }
             }
             builder.setItems(items) { dialog, which ->
@@ -146,7 +150,7 @@ class EditTransactionActivity : AppCompatActivity() {
     }
 
     private fun updateLabel() {
-        binding.editTextEditTransactionDate.setText(Util.getFullDateFormat().format(myCalendar.time))
+        binding.editTextEditTransactionDate.setText(Utils.getFullDateFormat().format(myCalendar.time))
     }
 
     private fun insertDataToDatabase() {
@@ -160,15 +164,15 @@ class EditTransactionActivity : AppCompatActivity() {
 
         if(inputCheck(amount, account, currency, category, date)){
             selectedCategory = selectedCategory ?: oldCategory
-            val oldConvertedAmount = Util.convertCurrency(this, transaction.currency, oldAccount.currency, transaction.amount)
+            val oldConvertedAmount = Utils.convertCurrency(this, transaction.currency, oldAccount.currency, transaction.amount)
             if(selectedAccount != null && selectedAccount!!.id != oldAccount.id){
                 val transaction = Transaction(id, isAnExpense, amount.toDouble(), selectedAccount!!.id,
-                    currency, selectedCategory!!.id, Util.getFullDateFormat().parse(date)!!)
+                    currency, selectedCategory!!.id, Utils.getFullDateFormat().parse(date)!!)
                 dataViewModel.updateTransaction(transaction)
 
-                val convertedAmount = Util.convertCurrency(this, currency, selectedAccount!!.currency, amount.toDouble())
-                var newAmount = 0.0
-                var oldAccountNewAmount = 0.0
+                val convertedAmount = Utils.convertCurrency(this, currency, selectedAccount!!.currency, amount.toDouble())
+                val newAmount: Double
+                val oldAccountNewAmount: Double
                 if(isAnExpense){
                     newAmount = selectedAccount!!.amount - convertedAmount
                     oldAccountNewAmount = oldAccount.amount + oldConvertedAmount
@@ -182,10 +186,10 @@ class EditTransactionActivity : AppCompatActivity() {
                 dataViewModel.updateAccount(newOldAccount)
             } else {
                 val transaction = Transaction(id, isAnExpense, amount.toDouble(), oldAccount.id,
-                    currency, selectedCategory!!.id, Util.getFullDateFormat().parse(date)!!)
+                    currency, selectedCategory!!.id, Utils.getFullDateFormat().parse(date)!!)
                 dataViewModel.updateTransaction(transaction)
 
-                val convertedAmount = Util.convertCurrency(this, currency, oldAccount.currency, amount.toDouble())
+                val convertedAmount = Utils.convertCurrency(this, currency, oldAccount.currency, amount.toDouble())
                 val difference = oldConvertedAmount - convertedAmount
                 val oldAccountNewAmount = if(isAnExpense){
                     oldAccount.amount + difference
@@ -218,7 +222,7 @@ class EditTransactionActivity : AppCompatActivity() {
         when(item.itemId){
             android.R.id.home -> {
                 finish()
-                return true;
+                return true
             }
             R.id.delete_item -> {
                 deleteTransaction()
@@ -230,7 +234,7 @@ class EditTransactionActivity : AppCompatActivity() {
     private fun deleteTransaction() {
         val builder = AlertDialog.Builder(this)
         builder.setPositiveButton(getString(R.string.positiveButton)){ _, _ ->
-            val amount = Util.convertCurrency(this, transaction.currency, oldAccount.currency, transaction.amount)
+            val amount = Utils.convertCurrency(this, transaction.currency, oldAccount.currency, transaction.amount)
             val oldAccountNewAmount = if(transaction.isAnExpense){
                 oldAccount.amount + amount
             } else{

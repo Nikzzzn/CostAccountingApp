@@ -6,7 +6,7 @@ import com.example.costaccounting.data.DataViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-object Util {
+object Utils {
 
     val API_KEY = "0ee82fb0-70a5-11ec-9a34-c3c7b67bf578"
     val PREFS_NAME = "preferences"
