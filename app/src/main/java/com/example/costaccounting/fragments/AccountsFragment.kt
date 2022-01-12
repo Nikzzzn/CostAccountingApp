@@ -2,6 +2,7 @@ package com.example.costaccounting.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.costaccounting.BuildConfig
 import com.example.costaccounting.activities.AddAccountActivity
 import com.example.costaccounting.helpers.Util
 import com.example.costaccounting.adapters.AccountsAdapter
@@ -35,14 +37,14 @@ class AccountsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         dataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
-        dataViewModel.getAllAccounts.observe(viewLifecycleOwner, Observer {
+        dataViewModel.getAllAccounts.observe(viewLifecycleOwner, {
             adapter.setData(it)
         })
 
         val prefs = activity?.getSharedPreferences(Util.PREFS_NAME, AppCompatActivity.MODE_PRIVATE)
         val baseCurrency = prefs!!.getString(Util.PREF_BASE_CURRENCY_KEY, "USD")!!
-        dataViewModel.getTotalSumForAllAccounts(baseCurrency).observe(viewLifecycleOwner, Observer {
-            val amount = BigDecimal(it).setScale(2, RoundingMode.HALF_EVEN)
+        dataViewModel.getTotalSumForAllAccounts(baseCurrency).observe(viewLifecycleOwner, {
+            val amount = BigDecimal(it ?: 0.0).setScale(2, RoundingMode.HALF_EVEN)
             binding.textViewAccountsTotal.text = "$amount $baseCurrency"
         })
 
@@ -54,6 +56,5 @@ class AccountsFragment : Fragment() {
 
         return binding.root
     }
-
 
 }

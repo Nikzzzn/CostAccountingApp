@@ -9,16 +9,23 @@
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/drawable/ic_launcher_background.xml" value="0.10052083333333334" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/account_row.xml" value="0.196875" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/activity_add_account.xml" value="0.196875" />
+        <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/activity_add_category.xml" value="0.196875" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/activity_add_transaction.xml" value="0.25" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/activity_choose_currency.xml" value="0.1" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/activity_edit_account.xml" value="0.196875" />
+        <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/activity_edit_category.xml" value="0.196875" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/activity_edit_transaction.xml" value="0.196875" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/activity_main.xml" value="0.18" />
+        <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/category_row.xml" value="0.196875" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/currency_row.xml" value="0.196875" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/date_row.xml" value="0.33" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/fragment_add_transaction.xml" value="0.196875" />
+        <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/fragment_categories.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/fragment_expense_categories.xml" value="0.196875" />
+        <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/fragment_expense_transactions.xml" value="0.196875" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/fragment_expenses.xml" value="0.196875" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/fragment_first.xml" value="0.2" />
+        <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/fragment_income_categories.xml" value="0.196875" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/fragment_incomes.xml" value="0.196875" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/fragment_second.xml" value="0.25" />
         <entry key="..\:/Android/AndroidProjects/CostAccounting/app/src/main/res/layout/fragment_third.xml" value="0.1272644927536232" />

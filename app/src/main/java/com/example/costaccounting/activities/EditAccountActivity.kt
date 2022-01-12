@@ -12,9 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.costaccounting.R
 import com.example.costaccounting.data.Account
 import com.example.costaccounting.data.DataViewModel
-import com.example.costaccounting.data.Transaction
 import com.example.costaccounting.databinding.ActivityEditAccountBinding
-import com.example.costaccounting.databinding.ActivityEditTransactionBinding
 
 private lateinit var binding: ActivityEditAccountBinding
 private lateinit var dataViewModel: DataViewModel
@@ -31,9 +29,9 @@ class EditAccountActivity : AppCompatActivity() {
         dataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
         setSupportActionBar(binding.toolbarEditAccount.toolbarEdit)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        title = "Edit account"
+        title = getString(R.string.editAccountActivityTitle)
 
-        account = intent.getParcelableExtra<Account>("account")!!
+        account = intent.getParcelableExtra("account")!!
         binding.editTextEditAccountAmount.setText(account.amount.toString())
         binding.editTextEditAccountName.setText(account.name)
         binding.editTextEditAccountCurrency.setText(account.currency)
@@ -69,7 +67,7 @@ class EditAccountActivity : AppCompatActivity() {
             dataViewModel.updateAccount(newAccount)
         }
 
-        Toast.makeText(applicationContext, "Success!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, getString(R.string.successfulOperation), Toast.LENGTH_SHORT).show()
         this.finish()
     }
 
@@ -97,15 +95,14 @@ class EditAccountActivity : AppCompatActivity() {
 
     private fun deleteAccount() {
         val builder = AlertDialog.Builder(this)
-        builder.setPositiveButton("Yes"){ _, _ ->
+        builder.setPositiveButton(getString(R.string.positiveButton)){ _, _ ->
             dataViewModel.deleteAccount(account)
-            Toast.makeText(this,"Success!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,getString(R.string.successfulOperation), Toast.LENGTH_SHORT).show()
             finish()
         }
-        builder.setNegativeButton("No"){ _, _ -> }
-        builder.setTitle("Delete account?")
-        builder.setMessage("Are you sure you want to delete this account? " +
-                "This will also delete all transactions that were done with this account.")
+        builder.setNegativeButton(getString(R.string.negativeButton)){ _, _ -> }
+        builder.setTitle(getString(R.string.deleteAccountTitle))
+        builder.setMessage(getString(R.string.deleteAccountMessage))
         builder.create().show()
     }
 

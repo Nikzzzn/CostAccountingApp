@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Cost Accounting</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
+
     <string name="USD">United States Dollar</string>
     <string name="EUR">EURO</string>
     <string name="GBP">British Pound</string>
@@ -55,14 +54,14 @@
     <string name="NPR">Nepalese Rupee</string>
     <string name="NGN">Nigerian Naira</string>
     <string name="NIO">Nicaraguan Cordoba</string>
-    <string name="TMT">Turkmenistan Manat (new)</string>
+    <string name="TMT">Turkmenistan Manat</string>
     <string name="ILS">Israeli Shekel (new)</string>
-    <string name="TWD">Taiwan Dollar (new)</string>
+    <string name="TWD">Taiwan Dollar</string>
     <string name="NOK">Norwegian Krone</string>
     <string name="PYG">Paraguayan Guarani</string>
     <string name="MOP">Pataca</string>
     <string name="PLN">Polish Zloty</string>
-    <string name="PEN">Peruvian Sol</string>
+    <string name="PEN">Peruvian Sol (new)</string>
     <string name="PKR">Pakistani Rupee</string>
     <string name="SGD">Singapore Dollar</string>
     <string name="SCR">Seychellois Rupee</string>
@@ -136,10 +135,65 @@
     <string name="SOS">Somali Shilling</string>
     <string name="GMD">Gambian Dalasi</string>
     <string name="KMF">Comorian Franc</string>
-    <string name="STD">São Tomé and Príncipe Dobra</string>
+    <string name="STD">Sao Tome and Principe Dobra</string>
     <string name="XRP">Ripple</string>
     <string name="BTC">Bitcoin</string>
     <string name="ETH">Ethereum</string>
     <string name="LTC">Litecoin</string>
     <string name="GYD">Guyanese Dollar</string>
+
+    <string name="food">Food</string>
+    <string name="vehicles">Vehicles</string>
+    <string name="home">Home</string>
+    <string name="health">Health</string>
+    <string name="cafe">Cafe</string>
+    <string name="education">Education</string>
+    <string name="family">Family</string>
+    <string name="other">Other</string>
+
+    <string name="gift">Gift</string>
+    <string name="salary">Salary</string>
+    <string name="interestPayment">Interest payment</string>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="addAccountActivityTitle">New account</string>
+    <string name="successfulOperation">Success!</string>
+    <string name="baseCurrencyMessage">Selected currency %1$s will be saved as base currency. You can change base currency in settings.</string>
+    <string name="baseCurrencyTitle">Base currency</string>
+    <string name="creatingFirstAccountTitle">First account</string>
+    <string name="creatingFirstAccountMessage">It seems that it is your first launch of this application. To proceed you need to create your first account in which you will be storing money for accounting.</string>
+    <string name="addCategoryActivityTitle">New category</string>
+    <string name="addTransactionActivityTitle">New transaction</string>
+    <string name="accountSelectorTitle">Choose account</string>
+    <string name="categorySelectorTitle">Choose category</string>
+    <string name="chooseCurrencyActivityTitle">Choose currency</string>
+    <string name="editAccountActivityTitle">Edit account</string>
+    <string name="positiveButton">Yes</string>
+    <string name="negativeButton">No</string>
+    <string name="deleteAccountTitle">Delete account?</string>
+    <string name="deleteAccountMessage">Are you sure you want to delete this account? This will also delete all transactions that were done with this account.</string>
+    <string name="editCategoryActivityTitle">Edit category</string>
+    <string name="deleteCategoryTitle">Delete category?</string>
+    <string name="deleteCategoryMessage">Are you sure you want to delete this category? This will also delete all transactions that were done with this category.</string>
+    <string name="editTransactionActivityTitle">Edit transaction</string>
+    <string name="deleteTransactionTitle">Delete transaction?</string>
+    <string name="deleteTransactionMessage">Are you sure you want to delete this transaction?</string>
+    <string name="allAccountsTitle">All accounts</string>
+    <string name="name">Name</string>
+    <string name="amount">Amount</string>
+    <string name="currency">Currency</string>
+    <string name="add">Add</string>
+    <string name="account">Account</string>
+    <string name="category">Category</string>
+    <string name="date">Date</string>
+    <string name="save">Save</string>
+    <string name="search">Search</string>
+    <string name="accountsItem">Accounts</string>
+    <string name="transactionsItem">Transactions</string>
+    <string name="categoriesItem">Categories</string>
+    <string name="delete">Delete</string>
+    <string name="total">Total:</string>
+    <string name="expenses">Expenses</string>
+    <string name="incomes">Incomes</string>
 </resources>

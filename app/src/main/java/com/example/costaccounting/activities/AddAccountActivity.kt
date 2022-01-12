@@ -15,10 +15,12 @@ import com.example.costaccounting.data.DataViewModel
 import com.example.costaccounting.databinding.ActivityAddAccountBinding
 
 import android.content.Intent
+import com.example.costaccounting.R
+import com.example.costaccounting.fragments.AccountsFragment
 
 private lateinit var binding: ActivityAddAccountBinding
 private lateinit var dataViewModel: DataViewModel
-private lateinit var prefs: SharedPreferences
+private var firstRun = true
 
 class AddAccountActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +33,7 @@ class AddAccountActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbarAddAccount)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        title = "New account"
+        title = getString(R.string.addAccountActivityTitle)
 
         binding.buttonAccountAdd.setOnClickListener{
             insertDataToDatabase()
@@ -40,6 +42,12 @@ class AddAccountActivity : AppCompatActivity() {
         binding.editTextAccountCurrency.setOnClickListener{
             val intentWithResult = Intent(this, ChooseCurrencyActivity::class.java)
             startActivityForResult(intentWithResult, 2)
+        }
+
+        firstRun = intent.getBooleanExtra("firstRun", false)
+
+        if(firstRun){
+            creatingFirstAccountDialog().show()
         }
     }
 
@@ -61,11 +69,16 @@ class AddAccountActivity : AppCompatActivity() {
         if(inputCheck(name, amount, currency)){
             val account = Account(0, name, amount.toDouble(), currency)
             dataViewModel.addAccount(account)
-            if(firstRun()){
+            if(firstRun){
                 baseCurrencyDialog(currency).show()
+                val prefs = getSharedPreferences(Util.PREFS_NAME, MODE_PRIVATE)
                 prefs.edit().putString(Util.PREF_BASE_CURRENCY_KEY, currency).apply()
+                val intent = Intent()
+                intent.putExtra("amount", amount)
+                intent.putExtra("currency", currency)
+                setResult(RESULT_OK, intent)
             } else {
-                Toast.makeText(applicationContext, "Success!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.successfulOperation), Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
@@ -83,31 +96,32 @@ class AddAccountActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun firstRun(): Boolean {
-        prefs = getSharedPreferences(Util.PREFS_NAME, MODE_PRIVATE)
-        val savedBaseCurrency = prefs.getString(
-            Util.PREF_BASE_CURRENCY_KEY,
-            Util.CURRENCY_DOESNT_EXIST
-        )
-
-        if(savedBaseCurrency == Util.CURRENCY_DOESNT_EXIST){
-            return true
-        }
-        return false
-    }
-
     private fun baseCurrencyDialog(currency: String): AlertDialog{
         val builder: AlertDialog.Builder = this.let {
             AlertDialog.Builder(it)
         }
-        builder.setMessage("Selected currency ($currency) will be saved as base currency. You can change base currency in settings")
-               .setTitle("Base currency")
+        builder.setMessage(String.format(getString(R.string.baseCurrencyMessage), currency))
+               .setTitle(getString(R.string.baseCurrencyTitle))
                .setCancelable(false)
         builder.apply {
             setPositiveButton("OK") { dialog, id ->
-                Log.d("asdf", "countdown")
                 dialog.dismiss()
                 finish()
+            }
+        }
+        return builder.create()
+    }
+
+    private fun creatingFirstAccountDialog(): AlertDialog{
+        val builder: AlertDialog.Builder = this.let {
+            AlertDialog.Builder(it)
+        }
+        builder.setMessage(String.format(getString(R.string.creatingFirstAccountMessage)))
+            .setTitle(getString(R.string.creatingFirstAccountTitle))
+            .setCancelable(false)
+        builder.apply {
+            setPositiveButton("OK") { dialog, id ->
+                dialog.dismiss()
             }
         }
         return builder.create()

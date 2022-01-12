@@ -15,6 +15,9 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
     val getAllAccounts: LiveData<List<Account>>
     val getAllAccountWithTransactions: LiveData<List<AccountWithTransactions>>
     val getAllCurrencies: LiveData<List<String>>
+    val getAllCategories: LiveData<List<Category>>
+    val getExpenseCategories: LiveData<List<Category>>
+    val getIncomeCategories: LiveData<List<Category>>
     private val repository: Repository
 
     init{
@@ -25,6 +28,9 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
         getAllAccounts = repository.getAllAccounts
         getAllAccountWithTransactions = repository.getAllAccountsWithTransactions
         getAllCurrencies = repository.getAllCurrencies
+        getAllCategories = repository.getAllCategories
+        getExpenseCategories = repository.getExpenseCategories
+        getIncomeCategories = repository.getIncomeCategories
     }
 
     fun addTransaction(transaction: Transaction){
@@ -91,6 +97,28 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
 
     fun getAllExpensesByAccountId(id: Int): LiveData<List<TransactionWithAccount>>{
         return repository.getAllExpensesByAccountId(id)
+    }
+
+    fun addCategory(category: Category){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.addCategory(category)
+        }
+    }
+
+    fun updateCategory(category: Category){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.updateCategory(category)
+        }
+    }
+
+    fun deleteCategory(category: Category){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.deleteCategory(category)
+        }
+    }
+
+    fun getCategoryById(id: Int): LiveData<Category>{
+        return repository.getCategoryById(id)
     }
 
 }

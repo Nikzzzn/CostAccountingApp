@@ -8,5 +8,6 @@ import kotlinx.android.parcel.Parcelize
 data class TransactionWithAccount(
     @Embedded
     val transaction: Transaction,
-    val accountName: String
+    val accountName: String,
+    val categoryName: String
 ): Parcelable

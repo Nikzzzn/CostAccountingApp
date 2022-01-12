@@ -27,7 +27,7 @@ class ChooseCurrencyActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbarChooseCurrency)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        title = "Choose currency"
+        title = getString(R.string.chooseCurrencyActivityTitle)
 
         adapter = CurrencyAdapter(this)
         val recyclerView = binding.recyclerViewChooseCurrency

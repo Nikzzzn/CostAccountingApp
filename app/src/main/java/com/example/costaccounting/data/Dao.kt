@@ -18,49 +18,56 @@ interface Dao {
     @Delete
     suspend fun deleteTransaction(transaction: Transaction)
 
-    @Query("SELECT transactions_table.*, accounts_table.name AS accountName " +
-            "FROM transactions_table " +
+    @Query("SELECT transactions_table.*, accounts_table.name AS accountName, " +
+            "categories_table.name AS categoryName FROM transactions_table " +
             "INNER JOIN accounts_table ON transactions_table.account_id = accounts_table.id " +
+            "INNER JOIN categories_table ON transactions_table.category_id = categories_table.id " +
             "WHERE isAnExpense = 0 ORDER BY date DESC, transaction_id DESC")
     fun getAllIncomes(): LiveData<List<TransactionWithAccount>>
 
-    @Query("SELECT transactions_table.*, accounts_table.name AS accountName " +
-            "FROM transactions_table " +
+    @Query("SELECT transactions_table.*, accounts_table.name AS accountName, " +
+            "categories_table.name AS categoryName FROM transactions_table " +
             "INNER JOIN accounts_table ON transactions_table.account_id = accounts_table.id " +
+            "INNER JOIN categories_table ON transactions_table.category_id = categories_table.id " +
             "WHERE isAnExpense = 0 AND accounts_table.id = :id " +
             "ORDER BY date DESC, transaction_id DESC")
     fun getAllIncomesByAccountId(id: Int): LiveData<List<TransactionWithAccount>>
 
-    @Query("SELECT transactions_table.*, accounts_table.name AS accountName " +
-            "FROM transactions_table " +
+    @Query("SELECT transactions_table.*, accounts_table.name AS accountName, " +
+            "categories_table.name AS categoryName FROM transactions_table " +
             "INNER JOIN accounts_table ON transactions_table.account_id = accounts_table.id " +
+            "INNER JOIN categories_table ON transactions_table.category_id = categories_table.id " +
             "WHERE isAnExpense = 1 ORDER BY date DESC, transaction_id DESC")
     fun getAllExpenses(): LiveData<List<TransactionWithAccount>>
 
-    @Query("SELECT transactions_table.*, accounts_table.name AS accountName " +
-            "FROM transactions_table " +
+    @Query("SELECT transactions_table.*, accounts_table.name AS accountName, " +
+            "categories_table.name AS categoryName FROM transactions_table " +
             "INNER JOIN accounts_table ON transactions_table.account_id = accounts_table.id " +
+            "INNER JOIN categories_table ON transactions_table.category_id = categories_table.id " +
             "WHERE isAnExpense = 1 AND accounts_table.id = :id " +
             "ORDER BY date DESC, transaction_id DESC")
     fun getAllExpensesByAccountId(id: Int): LiveData<List<TransactionWithAccount>>
 
-    @Query("SELECT transactions_table.*, accounts_table.name AS accountName " +
-            "FROM transactions_table " +
+    @Query("SELECT transactions_table.*, accounts_table.name AS accountName, " +
+            "categories_table.name AS categoryName FROM transactions_table " +
             "INNER JOIN accounts_table ON transactions_table.account_id = accounts_table.id " +
+            "INNER JOIN categories_table ON transactions_table.category_id = categories_table.id " +
             "WHERE isAnExpense = 1 AND strftime('%j',date) = :dayOfYear " +
             "ORDER BY date DESC, transaction_id DESC")
     fun getExpensesByDay(dayOfYear: String): LiveData<List<TransactionWithAccount>>
 
-    @Query("SELECT transactions_table.*, accounts_table.name AS accountName " +
-            "FROM transactions_table " +
+    @Query("SELECT transactions_table.*, accounts_table.name AS accountName, " +
+            "categories_table.name AS categoryName FROM transactions_table " +
             "INNER JOIN accounts_table ON transactions_table.account_id = accounts_table.id " +
+            "INNER JOIN categories_table ON transactions_table.category_id = categories_table.id " +
             "WHERE isAnExpense = 1 AND strftime('%W',date) = :weekOfYear " +
             "ORDER BY date DESC, transaction_id DESC")
     fun getExpensesByWeek(weekOfYear: String): LiveData<List<TransactionWithAccount>>
 
-    @Query("SELECT transactions_table.*, accounts_table.name AS accountName " +
-            "FROM transactions_table " +
+    @Query("SELECT transactions_table.*, accounts_table.name AS accountName, " +
+            "categories_table.name AS categoryName FROM transactions_table " +
             "INNER JOIN accounts_table ON transactions_table.account_id = accounts_table.id " +
+            "INNER JOIN categories_table ON transactions_table.category_id = categories_table.id " +
             "WHERE isAnExpense = 1 AND strftime('%m',date) = :month " +
             "ORDER BY date DESC, transaction_id DESC")
     fun getExpensesByMonth(month: String): LiveData<List<TransactionWithAccount>>
@@ -113,5 +120,28 @@ interface Dao {
 
     @Query("SELECT currency_name FROM usd_exchange_rates")
     fun getAllCurrencies(): LiveData<List<String>>
+
+    //Category
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addCategory(category: Category)
+
+    @Update
+    suspend fun updateCategory(category: Category)
+
+    @Delete
+    suspend fun deleteCategory(category: Category)
+
+    @Query("SELECT * FROM categories_table")
+    fun getAllCategories(): LiveData<List<Category>>
+
+    @Query("SELECT * FROM categories_table WHERE isAnExpenseCategory = 1")
+    fun getExpenseCategories(): LiveData<List<Category>>
+
+    @Query("SELECT * FROM categories_table WHERE isAnExpenseCategory = 0")
+    fun getIncomeCategories(): LiveData<List<Category>>
+
+    @Query("SELECT * FROM categories_table WHERE id = :id")
+    fun getCategoryById(id: Int): LiveData<Category>
 
 }

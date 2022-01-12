@@ -2,6 +2,7 @@ package com.example.costaccounting.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,8 @@ import com.example.costaccounting.R
 import com.example.costaccounting.helpers.Util
 import com.example.costaccounting.activities.EditTransactionActivity
 import com.example.costaccounting.data.TransactionWithAccount
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 
 class TransactionsAdapter(val context: Context): RecyclerView.Adapter<TransactionsAdapter.DataViewHolder>() {
@@ -67,9 +70,13 @@ class TransactionsAdapter(val context: Context): RecyclerView.Adapter<Transactio
             }
             RecyclerItem.typeTransaction -> {
                 val transaction = (itemsList[position] as TransactionItem).item
-                holder.itemView.findViewById<TextView>(R.id.textViewTransactionCategory).text = transaction.transaction.category
-                holder.itemView.findViewById<TextView>(R.id.textViewTransactionAmount).text = transaction.transaction.amount.toString()
+                val amount = BigDecimal(transaction.transaction.amount).setScale(2, RoundingMode.HALF_EVEN)
+                val categoryId = context.resources.getIdentifier(transaction.categoryName, "string", context.packageName)
+                val categoryName = if (categoryId != 0) context.resources.getString(categoryId) else transaction.categoryName
+                holder.itemView.findViewById<TextView>(R.id.textViewTransactionCategory).text = categoryName
+                holder.itemView.findViewById<TextView>(R.id.textViewTransactionAmount).text = amount.toString()
                 holder.itemView.findViewById<TextView>(R.id.textViewTransactionAccount).text = transaction.accountName
+                holder.itemView.findViewById<TextView>(R.id.textViewTransactionCurrency).text = transaction.transaction.currency
 
                 holder.itemView.findViewById<ConstraintLayout>(R.id.transactionRow).setOnClickListener{
                     val intent = Intent(context, EditTransactionActivity::class.java)
@@ -108,6 +115,8 @@ class TransactionsAdapter(val context: Context): RecyclerView.Adapter<Transactio
         }
         if(transactionsList.isNotEmpty()){
             updateRecyclerItems()
+        } else{
+            itemsList = mutableListOf()
         }
         notifyDataSetChanged()
     }

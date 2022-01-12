@@ -30,11 +30,12 @@ import com.example.costaccounting.data.DataViewModel
 import com.example.costaccounting.data.USDExchangeRate
 import com.example.costaccounting.fragments.TransactionsFragment
 import com.example.costaccounting.fragments.AccountsFragment
-import com.example.costaccounting.fragments.ThirdFragment
+import com.example.costaccounting.fragments.CategoriesFragment
 import org.json.JSONObject
 import java.math.BigDecimal
 import java.math.RoundingMode
-
+import java.util.concurrent.CountDownLatch
+import android.os.AsyncTask
 
 private lateinit var binding: ActivityMainBinding
 private lateinit var drawerLayout: DrawerLayout
@@ -44,15 +45,15 @@ private lateinit var transactionsTextViewName: TextView
 private lateinit var transactionsTextViewAmount: TextView
 private lateinit var transactionsConstraintLayout: ConstraintLayout
 private lateinit var dataViewModel: DataViewModel
-private lateinit var accounts: List<Account>
+private var accounts: List<Account> = listOf()
 private var selectedId = -1
+private val latch = CountDownLatch(1)
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        checkFirstRun()
         updateExchangeRates()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -73,6 +74,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         setupDrawerContent(navView)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         drawerToggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close)
         drawerToggle.isDrawerIndicatorEnabled = true
@@ -81,7 +83,14 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(drawerToggle)
 
         if (savedInstanceState == null) {
-            selectDrawerItem(navView.menu.findItem(R.id.nav_transactions_fragment))
+            if (checkFirstRun()) {
+                AsyncTask.execute {
+                    latch.await()
+                    selectDrawerItem(navView.menu.findItem(R.id.nav_accounts_fragment))
+                }
+            } else {
+                selectDrawerItem(navView.menu.findItem(R.id.nav_accounts_fragment))
+            }
         }
     }
 
@@ -107,8 +116,8 @@ class MainActivity : AppCompatActivity() {
         val fragmentClass = when (menuItem.itemId) {
             R.id.nav_transactions_fragment -> TransactionsFragment::class.java
             R.id.nav_accounts_fragment -> AccountsFragment::class.java
-            R.id.nav_third_fragment -> ThirdFragment::class.java
-            else -> TransactionsFragment::class.java
+            R.id.nav_categories_fragment -> CategoriesFragment::class.java
+            else -> AccountsFragment::class.java
         }
 
         try {
@@ -117,14 +126,14 @@ class MainActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
-        if(fragment is TransactionsFragment){
+        if(fragment is TransactionsFragment && accounts.isNotEmpty()){
             supportActionBar?.setDisplayShowTitleEnabled(false)
             transactionsTextViewName.visibility = VISIBLE
-            transactionsTextViewName.text = "All accounts"
+            transactionsTextViewName.text = getString(R.string.allAccountsTitle)
             transactionsConstraintLayout.setOnClickListener{textViewAccountClickListener()}
 
             transactionsTextViewAmount.visibility = VISIBLE
-            val prefs = this.getSharedPreferences(Util.PREFS_NAME, AppCompatActivity.MODE_PRIVATE)
+            val prefs = this.getSharedPreferences(Util.PREFS_NAME, MODE_PRIVATE)
             val baseCurrency = prefs!!.getString(Util.PREF_BASE_CURRENCY_KEY, "USD")!!
             dataViewModel.getTotalSumForAllAccounts(baseCurrency).observe(this, Observer {
                 val amount = BigDecimal(it).setScale(2, RoundingMode.HALF_EVEN)
@@ -138,7 +147,7 @@ class MainActivity : AppCompatActivity() {
             supportActionBar?.setDisplayShowTitleEnabled(true)
             transactionsTextViewName.visibility = GONE
             transactionsTextViewAmount.visibility = GONE
-            binding.toolbarMainInc.toolbarMain.title = menuItem.title
+            supportActionBar?.title = menuItem.title
         }
 
         supportFragmentManager.beginTransaction().replace(R.id.frame_layout_content, fragment!!).commit()
@@ -149,7 +158,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun textViewAccountClickListener(){
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Choose account")
+        builder.setTitle(getString(R.string.accountSelectorTitle))
         var items = arrayOf("All accounts")
         for(acc: String in accounts.map{it.name}){
             items = items.plus(acc)
@@ -162,7 +171,7 @@ class MainActivity : AppCompatActivity() {
             }
             transactionsTextViewName.text = items[which]
 
-            val prefs = this.getSharedPreferences(Util.PREFS_NAME, AppCompatActivity.MODE_PRIVATE)
+            val prefs = this.getSharedPreferences(Util.PREFS_NAME, MODE_PRIVATE)
             val baseCurrency = prefs!!.getString(Util.PREF_BASE_CURRENCY_KEY, "USD")!!
             if(selectedId == -1){
                 dataViewModel.getTotalSumForAllAccounts(baseCurrency).observe(this, {
@@ -203,24 +212,30 @@ class MainActivity : AppCompatActivity() {
         drawerToggle.onConfigurationChanged(newConfig)
     }
 
-
-    private fun checkFirstRun() {
+    private fun checkFirstRun(): Boolean {
         val currentVersionCode = BuildConfig.VERSION_CODE
         val prefs = getSharedPreferences(Util.PREFS_NAME, MODE_PRIVATE)
         val savedVersionCode = prefs.getInt(Util.PREF_VERSION_CODE_KEY, Util.VERSION_DOESNT_EXIST)
 
-        when {
-            currentVersionCode == savedVersionCode -> {
-                return
-            }
-            savedVersionCode == Util.VERSION_DOESNT_EXIST || currentVersionCode > savedVersionCode -> {
-                val intent = Intent(applicationContext, AddAccountActivity::class.java)
-                startActivity(intent)
-            }
+        if(currentVersionCode == savedVersionCode){
+            return false
+        } else{
+            val intent = Intent(applicationContext, AddAccountActivity::class.java)
+            intent.putExtra("firstRun", true)
+            startActivityForResult(intent, 1)
+            prefs.edit().putInt(Util.PREF_VERSION_CODE_KEY, currentVersionCode).apply()
         }
 
-        // Update the shared preferences with the current version code
-        prefs.edit().putInt(Util.PREF_VERSION_CODE_KEY, currentVersionCode).apply()
+        return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == RESULT_OK){
+            if(requestCode == 1){
+                latch.countDown()
+            }
+        }
     }
 
     private fun updateExchangeRates(){
@@ -241,7 +256,6 @@ class MainActivity : AppCompatActivity() {
                     val usdExchangeRate = USDExchangeRate(currency_name, value)
                     dataViewModel.addUSDExchangeRate(usdExchangeRate)
                 }
-                Log.d("asdf", "Internet")
             },
             { })
         queue.add(stringRequest)

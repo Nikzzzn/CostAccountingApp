@@ -14,14 +14,17 @@ import java.util.*
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Intent
+import android.util.Log
+import com.example.costaccounting.R
 import com.example.costaccounting.helpers.Util
 import com.example.costaccounting.data.Account
+import com.example.costaccounting.data.Category
 
 private lateinit var binding: ActivityAddTransactionBinding
 private lateinit var dataViewModel: DataViewModel
 private val myCalendar: Calendar = Calendar.getInstance()
 private var selectedAccount: Account? = null
-private lateinit var accounts: List<Account>
+private var selectedCategory: Category? = null
 
 class AddTransactionActivity : AppCompatActivity() {
 
@@ -33,11 +36,11 @@ class AddTransactionActivity : AppCompatActivity() {
 
         dataViewModel = ViewModelProvider(this)[DataViewModel::class.java]
         setSupportActionBar(binding.toolbarAddTransaction)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        title = "New transaction"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        title = getString(R.string.addTransactionActivityTitle)
 
+        val isAnExpense = intent.getBooleanExtra("isAnExpense", true)
         binding.buttonTransactionAdd.setOnClickListener{
-            val isAnExpense = intent.getBooleanExtra("isAnExpense", true)
             insertDataToDatabase(isAnExpense)
         }
 
@@ -57,17 +60,49 @@ class AddTransactionActivity : AppCompatActivity() {
                 myCalendar[Calendar.DAY_OF_MONTH]
             ).show()
         }
+
+        var accounts: List<Account>? = null
         dataViewModel.getAllAccounts.observe(this, {
             accounts = it
         })
+        var categories: List<Category>? = null
+        if(isAnExpense) {
+            dataViewModel.getExpenseCategories.observe(this, {
+                categories = it
+            })
+        } else{
+            dataViewModel.getIncomeCategories.observe(this, {
+                categories = it
+            })
+        }
 
         binding.editTextTransactionAccount.setOnClickListener{
             val builder = AlertDialog.Builder(this@AddTransactionActivity)
-            builder.setTitle("Choose account")
-            builder.setItems(accounts.map{it.name}.toTypedArray()) { dialog, which ->
-                selectedAccount = accounts[which]
-                binding.editTextTransactionAccount.setText(selectedAccount!!.name)
-                binding.editTextTransactionCurrency.setText(selectedAccount!!.currency)
+            builder.setTitle(getString(R.string.accountSelectorTitle))
+            builder.setItems(accounts?.map{it.name}?.toTypedArray()) { dialog, which ->
+                selectedAccount = accounts?.get(which)
+                binding.editTextTransactionAccount.setText(selectedAccount?.name)
+                binding.editTextTransactionCurrency.setText(selectedAccount?.currency)
+            }
+            val dialog = builder.create()
+            dialog.show()
+        }
+
+        binding.editTextTransactionCategory.setOnClickListener{
+            val builder = AlertDialog.Builder(this@AddTransactionActivity)
+            builder.setTitle(R.string.categorySelectorTitle)
+            var items = arrayOf<String>()
+            for(category in categories?.map{ it.name }!!){
+                val id = resources.getIdentifier(category, "string", packageName)
+                if(id != 0){
+                    items = items.plus(resources.getString(id))
+                } else{
+                    items = items.plus(category)
+                }
+            }
+            builder.setItems(items) { dialog, which -> //categories!!.map{it.name}.toTypedArray()
+                selectedCategory = categories?.get(which)
+                binding.editTextTransactionCategory.setText(items[which])
             }
             val dialog = builder.create()
             dialog.show()
@@ -102,7 +137,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
         if(inputCheck(amount, account, currency, category, date)){
             val transaction = Transaction(0, isAnExpense, amount.toDouble(), selectedAccount!!.id,
-                currency, category, Util.getFullDateFormat().parse(date)!!)
+                currency, selectedCategory!!.id, Util.getFullDateFormat().parse(date)!!)
             dataViewModel.addTransaction(transaction)
 
             val convertedAmount = Util.convertCurrency(this, currency, selectedAccount!!.currency, amount.toDouble())
@@ -113,7 +148,7 @@ class AddTransactionActivity : AppCompatActivity() {
             }
             val newAccount = Account(selectedAccount!!.id, selectedAccount!!.name, newAmount, selectedAccount!!.currency)
             dataViewModel.updateAccount(newAccount)
-            Toast.makeText(applicationContext, "Success!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, getString(R.string.successfulOperation), Toast.LENGTH_SHORT).show()
             this.finish()
         }
     }
@@ -129,7 +164,7 @@ class AddTransactionActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             this.finish()
-            return true;
+            return true
         }
         return super.onOptionsItemSelected(item)
     }

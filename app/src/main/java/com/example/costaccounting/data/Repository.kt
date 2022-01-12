@@ -9,8 +9,11 @@ class Repository(private val dao: Dao) {
     val getAllAccounts: LiveData<List<Account>> = dao.getAllAccounts()
     val getAllAccountsWithTransactions: LiveData<List<AccountWithTransactions>> = dao.getAllAccountsWithTransactions()
     val getAllCurrencies: LiveData<List<String>> = dao.getAllCurrencies()
+    val getAllCategories: LiveData<List<Category>> = dao.getAllCategories()
+    val getExpenseCategories: LiveData<List<Category>> = dao.getExpenseCategories()
+    val getIncomeCategories: LiveData<List<Category>> = dao.getIncomeCategories()
 
-    suspend fun addTransaction(transaction: Transaction){
+        suspend fun addTransaction(transaction: Transaction){
         dao.addTransaction(transaction)
     }
 
@@ -63,6 +66,22 @@ class Repository(private val dao: Dao) {
 
     fun getAccountById(id: Int): LiveData<Account>{
         return dao.getAccountById(id)
+    }
+
+    suspend fun addCategory(category: Category){
+        dao.addCategory(category)
+    }
+
+    suspend fun updateCategory(category: Category){
+        dao.updateCategory(category)
+    }
+
+    suspend fun deleteCategory(category: Category){
+        dao.deleteCategory(category)
+    }
+
+    fun getCategoryById(id: Int): LiveData<Category>{
+        return dao.getCategoryById(id)
     }
 
 }

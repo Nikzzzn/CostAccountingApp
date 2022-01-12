@@ -2,18 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transactionRow"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/transactionRow">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/textViewTransactionCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24sp"
-        android:layout_marginTop="16sp"
-        android:layout_marginBottom="16dp"
-        android:text="TextView"
+        android:text="@string/category"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,19 +21,32 @@
         android:id="@+id/textViewTransactionAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:text="TextView"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginEnd="6dp"
+        android:text="@string/amount"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/textViewTransactionCurrency"
+        app:layout_constraintTop_toTopOf="@+id/textViewTransactionCurrency" />
 
     <TextView
         android:id="@+id/textViewTransactionAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/textViewTransactionAmount"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTransactionAmount" />
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:text="@string/account"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewTransactionCurrency"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTransactionCurrency" />
+
+    <TextView
+        android:id="@+id/textViewTransactionCurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:text="USD"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

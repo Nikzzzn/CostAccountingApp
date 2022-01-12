@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
+import androidx.room.ForeignKey.NO_ACTION
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 import java.util.Date
@@ -21,6 +22,11 @@ import java.util.Date
         entity = USDExchangeRate::class,
         parentColumns = arrayOf("currency_name"),
         childColumns = arrayOf("currency")
+    ), ForeignKey(
+        entity = Category::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("category_id"),
+        onDelete = CASCADE
     )]
 )
 data class Transaction(
@@ -32,6 +38,6 @@ data class Transaction(
     val amount: Double,
     val account_id: Int,
     val currency: String,
-    val category: String,
+    val category_id: Int,
     val date: Date
 ): Parcelable

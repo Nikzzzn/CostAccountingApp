@@ -39,7 +39,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Amount" />
+                android:text="@string/amount" />
 
             <EditText
                 android:id="@+id/editTextTransactionAmount"
@@ -59,7 +59,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Account" />
+                android:text="@string/account" />
 
             <EditText
                 android:id="@+id/editTextTransactionAccount"
@@ -83,7 +83,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Currency" />
+                android:text="@string/currency" />
 
             <EditText
                 android:id="@+id/editTextTransactionCurrency"
@@ -108,7 +108,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Category" />
+                android:text="@string/category" />
 
             <EditText
                 android:id="@+id/editTextTransactionCategory"
@@ -117,7 +117,10 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Name" />
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
         </LinearLayout>
 
         <LinearLayout
@@ -130,7 +133,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Date" />
+                android:text="@string/date" />
 
             <EditText
                 android:id="@+id/editTextTransactionDate"
@@ -149,7 +152,7 @@
             android:id="@+id/buttonTransactionAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add" />
+            android:text="@string/add" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

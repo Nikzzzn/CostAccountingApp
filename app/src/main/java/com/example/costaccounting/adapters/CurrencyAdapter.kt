@@ -29,8 +29,6 @@ class CurrencyAdapter(val context: Context): RecyclerView.Adapter<CurrencyAdapte
             } else{
                 val filterPattern = constraint.toString().lowercase().trim()
 
-                Log.d("asdf", filterPattern)
-
                 for(currency: Currency in currencyListFull){
                     if(currency.name.lowercase().contains(filterPattern) ||
                             currency.code.lowercase().contains(filterPattern)){

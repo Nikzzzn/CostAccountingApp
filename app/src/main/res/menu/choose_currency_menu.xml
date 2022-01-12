@@ -8,6 +8,6 @@
         android:iconTint="@color/white"
         app:showAsAction="ifRoom"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        android:title="Search"/>
+        android:title="@string/search"/>
 
 </menu>

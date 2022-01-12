@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayoutMediator
 import androidx.viewpager2.widget.ViewPager2
 import com.example.costaccounting.activities.AddTransactionActivity
-import com.example.costaccounting.adapters.ViewPagerAdapter
+import com.example.costaccounting.adapters.ViewPagerTransactionsAdapter
 import com.example.costaccounting.databinding.FragmentTransactionsBinding
 import com.google.android.material.tabs.TabLayout
 
@@ -24,13 +24,13 @@ class TransactionsFragment : Fragment() {
     ): View {
         binding = FragmentTransactionsBinding.inflate(inflater, container, false)
 
-        val viewPager: ViewPager2 = binding.viewPager
-        val tabLayout: TabLayout = binding.tabLayout
+        val viewPager: ViewPager2 = binding.viewPagerTransactions
+        val tabLayout: TabLayout = binding.tabLayoutTransactions
 
         val bundle = this.arguments
-        val selectedId = bundle?.getInt("selectedId", -1)
+        val selectedId = bundle?.getInt("selectedId", -1) ?: -1
 
-        val adapter = ViewPagerAdapter(this, selectedId!!)
+        val adapter = ViewPagerTransactionsAdapter(this, selectedId)
         viewPager.adapter = adapter
 
         TabLayoutMediator(tabLayout, viewPager) {

@@ -3,30 +3,18 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_transactions_fragment"
+            android:id="@+id/nav_accounts_fragment"
             android:icon="@drawable/ic_baseline_filter_1_24"
             android:checked="true"
-            android:title="Transactions"/>
+            android:title="@string/accountsItem"/>
         <item
-            android:id="@+id/nav_accounts_fragment"
+            android:id="@+id/nav_transactions_fragment"
             android:icon="@drawable/ic_baseline_filter_2_24"
-            android:title="Accounts"/>
+            android:title="@string/transactionsItem"/>
         <item
-            android:id="@+id/nav_third_fragment"
+            android:id="@+id/nav_categories_fragment"
             android:icon="@drawable/ic_baseline_filter_3_24"
-            android:title="Third"/>
-        <item android:title="Sub items">
-            <menu>
-                <group android:checkableBehavior="single">
-                    <item
-                        android:icon="@drawable/ic_baseline_filter_1_24"
-                        android:title="Sub item 1"/>
-                    <item
-                        android:icon="@drawable/ic_baseline_filter_2_24"
-                        android:title="Sub item 2"/>
-                </group>
-            </menu>
-        </item>
+            android:title="@string/categoriesItem"/>
     </group>
 
 </menu>
